@@ -5,6 +5,8 @@ import './assets/tailwind.css'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 import ToastService from 'primevue/toastservice'
+import Breadcrumb from 'primevue/breadcrumb';
+
 
 // import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
@@ -17,4 +19,5 @@ app.use(PrimeVue, {
     }
 })
 app.use(ToastService)
+app.use(Breadcrumb);
 app.mount('#app')
