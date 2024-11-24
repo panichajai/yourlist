@@ -1,7 +1,7 @@
     <template>
         <div class="flex justify-center items-center min-h-screen bg-gray-100">
             <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-                <h2 class="text-center text-2xl font-bold mb-6">Register Form</h2>
+                <h2 class="text-center text-2xl font-bold mb-6">Sign Up</h2>
                 <form @submit.prevent="saveData">
                     <div class="flex flex-col gap-4">
                         <div>
@@ -78,7 +78,7 @@
                                 @click="goToLoginPage"
                                 class="text-blue-500 hover:text-blue-600"
                             >
-                                Log in now
+                                Log In
                             </button>
                         </div>
 
@@ -93,7 +93,7 @@
         import axios from 'axios';
 
         export default {
-            name: 'RegisterPage',
+            name: 'SignUpPage',
             data () {
                 return {
                     result: {},
@@ -130,7 +130,7 @@
                     )
                 },
                 goToLoginPage() {
-                    this.$router.push({ name: 'Login' });
+                    this.$router.push({ name: 'LogIn' });
                 }
                 // อันนี้แชทเจน เผื่อต้องแก้
                 // saveData() {

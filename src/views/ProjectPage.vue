@@ -85,11 +85,12 @@
                 </div>
             </div>
 
-
-
             <div class="flex flex-col items-center justify-center flex-grow overflow-auto">
                 <div class="flex flex-col bg-gray-100 bg-white h-full w-full p-6">
 
+
+
+                    
                 </div>
             </div>
         </div>

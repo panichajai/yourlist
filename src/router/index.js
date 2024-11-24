@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '@/views/LandingPage.vue'
 import DashboardPage from '../views/DashboardPage.vue'  
 import LoginPage from '@/views/LoginPage.vue'
-import RegisterPage from '@/views/RegisterPage.vue'
+import SignUpPage from '@/views/SignUpPage.vue'
 import ProjectPage from '@/views/ProjectPage.vue'
+import TestPage from '@/views/TestPage.vue'
 
 const routes = [
   {
@@ -18,18 +19,23 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'LogIn',
     component: LoginPage
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: RegisterPage
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUpPage
   },
   {
-    path: '/projectPage',
+    path: '/project',
     name: 'Project',
     component: ProjectPage
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: TestPage
   },
 ]
 
