@@ -1,81 +1,90 @@
 <template>
-    <Dialog v-model:visible="visible" modal header="Add Task" :style="{ width: '60rem' }">
-    <div class="flex flex-col gap-4 mb-6">
-      <div class="flex flex-col gap-1">
-        <label for="taskname" class="font-semibold">Task name</label>
-        <InputText id="taskname" v-model="task.name" class="w-full" autocomplete="off" />
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="add_description" class="font-semibold">Add description</label>
-        <Editor v-model="task.description" editorStyle="height: 320px" />
-      </div>
-      <div class="flex flex-col gap-1">
-        <label for="assignee" class="font-semibold">Assignee</label>
-        <InputText id="assignee" v-model="task.assignee" class="w-full" autocomplete="off" />
-      </div>
-      <div class="flex-auto">
-        <label for="startdate" class="font-semibold mb-2">Start Date</label>
-        <DatePicker v-model="task.startDate" showIcon fluid iconDisplay="input" inputId="startdate" />
-      </div>
-      <div class="flex-auto">
-        <label for="enddate" class="font-semibold mb-2">End Date</label>
-        <DatePicker v-model="task.endDate" showIcon fluid iconDisplay="input" inputId="enddate" />
-      </div>
-    </div>
-    <div class="flex justify-end gap-2">
-      <Toast />
-      <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-      <Button type="button" label="Save" severity="info" @click="AddTask"></Button>
-    </div>
-  </Dialog>
+  <div class="p-6 bg-white">
 
-  <!-- Card where task data will be displayed -->
-  <div v-if="task.name" class="card mt-6 p-4 shadow-md">
-    <h3 class="font-semibold text-xl">{{ task.name }}</h3>
-    <p class="text-gray-600">{{ task.description }}</p>
-    <div class="mt-2 text-sm text-gray-500">
-      <span><strong>Assignee:</strong> {{ task.assignee }}</span><br />
-      <span><strong>Start Date:</strong> {{ task.startDate }}</span><br />
-      <span><strong>End Date:</strong> {{ task.endDate }}</span>
+
+    <div class="bg-gray-100 rounded-md shadow-md p-4 w-60">
+      <div class="flex items-center gap-2 pb-2 border-b-2 border-gray-300">
+        <Avatar label="P" class="mr-2"
+          style="background-color: white; color: black; width: 24px; height: 24px; font-size: 14px;"
+          shape="circle" />
+        <label class="text-lg font-semibold ">Panicha</label>
+      </div>
+
+      <div class="flex flex-col gap-2 pt-2">
+
+        <div class="flex flex-col p-2 gap-2 bg-white rounded-md">
+          <label class="text-sm pt-1 text-gray-800">Dashboard</label>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-align-left text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">Test the functionality of ..</label>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-calendar text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">13/11/2024</label>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-calendar-clock text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">16/11/2024</label>
+          </div>
+        </div>
+
+        <div class="flex flex-col p-2 gap-2 bg-white rounded-md">
+          <label class="text-sm pt-1 text-gray-800">Dashboard</label>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-align-left text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">Test the functionality of ..</label>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-calendar text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">13/11/2024</label>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-calendar-clock text-gray-500" style="font-size: 12px;"></i>
+            <label class="text-xs text-gray-500">16/11/2024</label>
+          </div>
+        </div>
+
+      </div>
+
+
+
     </div>
+
   </div>
-  </template>
-  
-  <script>
-  import Dialog from 'primevue/dialog';
-  import InputText from "primevue/inputtext";
-  import Button from 'primevue/button';
-  import DatePicker from 'primevue/datepicker';
+</template>
 
-  export default {
-    components: {
-        Dialog,
-        InputText,
-        Button,
-        DatePicker
-    },
-    name: 'TestPage',
-    data() {
-        return {
-      visible: true, // Controls the visibility of the Dialog
-      task: {
-        name: '',
-        description: '',
-        assignee: '',
-        startDate: null,
-        endDate: null
-      }
-    };
+<script>
+import Avatar from 'primevue/avatar';
+
+export default {
+  components: {
+    Avatar,
   },
-  methods: {
-    AddTask() {
-      // Logic to save the task, and hide the dialog
-      // In this case, we just hide the dialog
-      this.visible = false;
-      
-      // Optionally, you can add more logic here, like saving data to a backend or database
-    }
-  }
-  };
-  </script>
-  
+  name: 'TestPage',
+  // data() {
+  //   return {
+  //     tasks: [
+  //       { id: 1, title: 'Changes Template email tickets', details: 'In Shared with...', dueDate: '2023-03-20', assignedTo: 'NL', subtasks: [], },
+  //       { id: 2, title: 'Event ยังกระตุกกับ Organizer', details: 'In Shared with...', dueDate: '2023-03-15', assignedTo: 'TT', subtasks: [], },
+  //       { id: 3, title: 'UI - 1. Landing Page', details: 'มีข้อมูลคนเข้าใช้งานเริ่ม...', dueDate: '2023-03-10', assignedTo: 'Manow', subtasks: [{}, {}], },
+  //     ],
+  //   };
+  // },
+  // computed: {
+  //   sortedTasks() {
+  //     // Just return the sorted array instead of doing side effects
+  //     return [...this.tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+  //   },
+  // },
+  // methods: {
+  //   formatDate(date) {
+  //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  //     return new Date(date).toLocaleDateString(undefined, options);
+  //   },
+  //   markAsComplete(id) {
+  //     const task = this.tasks.find(t => t.id === id);
+  //     task.completed = true; // Handle task completion logic
+  //   },
+  // },
+};
+</script>

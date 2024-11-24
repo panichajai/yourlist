@@ -11,12 +11,12 @@
                 <button 
                     @click="goToLogInPage" 
                     class="flex items-center px-4 py-2 hover:bg-gray-100 rounded-md">
-                    <label class="text-sm">Log in</label>
+                    <span class="text-sm">Log in</span>
                 </button>
                 <button 
                     @click="goToSignUpPage" 
                     class="flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md">
-                    <label class="text-xs text-white sm:text-sm">Sign Up</label>
+                    <span class="text-xs text-white sm:text-sm">Sign Up</span>
                 </button>
             </div>
         </div>

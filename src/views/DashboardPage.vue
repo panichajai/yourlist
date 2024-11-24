@@ -30,7 +30,7 @@
           <button type="button" @click="visible = true"
             class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md">
             <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-            <label class="text-lg text-white text-left sm:text-xl">New Project</label>
+            <span class="text-lg text-white text-left sm:text-xl">New Project</span>
           </button>
 
           <div class="card flex justify-center">
@@ -80,39 +80,43 @@
 
 
         <div class="flex flex-col items-center justify-center flex-grow overflow-auto">
-          <div class="flex flex-col bg-gray-100 bg-white h-full w-full p-6">
-            <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
-              <div
-                class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-blue-500 rounded-md shadow-md">
-                <div class="flex flex-row items-center gap-4">
-                  <dt class="text-lg text-white text-left sm:text-xl">Total Tasks</dt>
-                  <i class="pi pi-list-check" style="color: white; font-size: 1.5rem;"></i>
+          <div class="flex flex-col bg-gray-100 h-full w-full p-4">
+            <div class="flex flex-col h-screen w-full bg-white p-6 rounded-md">
+              <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
+                <div
+                  class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-blue-500 rounded-md shadow-md">
+                  <div class="flex flex-row items-center gap-4">
+                    <dt class="text-lg text-white text-left sm:text-xl">Total Tasks</dt>
+                    <i class="pi pi-list-check" style="color: white; font-size: 1.5rem;"></i>
+                  </div>
+                  <dd class="text-3xl font-semibold tracking-tight text-white sm:text-5xl">120</dd>
                 </div>
-                <dd class="text-3xl font-semibold tracking-tight text-white sm:text-5xl">120</dd>
-              </div>
 
-              <div
-                class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-white rounded-md shadow-md">
-                <div class="flex flex-row items-center gap-4">
-                  <dt class="text-lg text-gray-600 text-left sm:text-xl">Completed Tasks</dt>
-                  <i class="pi pi-check-square" style="color: #3B82F6; font-size: 1.5rem;"></i>
+                <div
+                  class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-gray-100 rounded-md shadow-md">
+                  <div class="flex flex-row items-center gap-4">
+                    <dt class="text-lg text-gray-600 text-left sm:text-xl">Completed Tasks</dt>
+                    <i class="pi pi-check-square" style="color: #3B82F6; font-size: 1.5rem;"></i>
+                  </div>
+                  <dd class="text-3xl font-semibold tracking-tight text-gray-600 sm:text-5xl">80</dd>
                 </div>
-                <dd class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">80</dd>
-              </div>
 
-              <div
-                class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-white rounded-md shadow-md">
-                <div class="flex flex-row items-center gap-4">
-                  <dt class="text-lg text-gray-600 text-left sm:text-xl">Pending Tasks</dt>
-                  <i class="pi pi-exclamation-circle" style="color: #3B82F6; font-size: 1.5rem;"></i>
+                <div
+                  class="mx-auto flex max-w-xs flex-col items-center justify-center gap-4 w-60 sm:w-80 h-40 bg-gray-100 rounded-md shadow-md">
+                  <div class="flex flex-row items-center gap-4">
+                    <dt class="text-lg text-gray-600 text-left sm:text-xl">Pending Tasks</dt>
+                    <i class="pi pi-exclamation-circle" style="color: #3B82F6; font-size: 1.5rem;"></i>
+                  </div>
+                  <dd class="text-3xl font-semibold tracking-tight text-gray-600 sm:text-5xl">40</dd>
                 </div>
-                <dd class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">40</dd>
+              </dl>  
+              <div class="card flex justify-center mt-6 w-80 h-80">
+                <Chart type="doughnut" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
               </div>
-            </dl>
-
-            <div class="card flex justify-center mt-6 w-80 h-80">
-              <Chart type="doughnut" :data="chartData" :options="chartOptions" class="w-full md:w-[30rem]" />
             </div>
+            
+
+            
           </div>
         </div>
       </div>

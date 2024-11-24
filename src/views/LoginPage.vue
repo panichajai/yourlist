@@ -10,14 +10,12 @@
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="email" />
                     </div>
-
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 text-left">Password</label>
                         <input type="password" v-model="user.password" id="password"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="password" />
                     </div>
-
                     <div>
                         <Toast />
                         <button severity="success"
@@ -26,8 +24,6 @@
                             Log In
                         </button>
                     </div>
-
-
                     <div class="flex items-center justify-end space-x-2 text-xs text-gray-500">
                         <span>Don't have an account?</span>
                         <button type="submit" @click="goToSignUpPage" class="text-blue-500 hover:text-blue-600">
@@ -62,26 +58,36 @@ export default {
     methods: {
 
         LoginData() {
-            this.$toast.add({ severity: 'success', summary: 'Login Success', detail: ' ', life: 3000 });
-            this.$router.push({ name: 'Dashboard' });
+            const email = "admin@gmail.com";
+            const password = "1234";
+
+            if (this.user.email === email && this.user.password === password) {
+                this.$toast.add({ severity: "success", summary: "Login Successful", life: 3000 });
+                setTimeout(() => {
+                    this.$router.push({ name: 'Dashboard' });
+                }, 3000);
+            } else {
+                this.$toast.add({ severity: "error", summary: "Login Failed", detail: "Invalid email or password." });
+            }
         },
+
         goToSignUpPage() {
             this.$router.push({ name: 'SignUp' });
         },
         // axios.post("ใส่ลิงก์ URL", this.user)
-            // .then(({data}) => {
-            //     console.log(data);
-            //     if (data.status === true) {
-            //         alert("Login Successfully");
-            //         this.$router.push({ name: 'Helloworld' });
-            //     } else {
-            //         alert("Login Failed");
-            //     }
-            // })
-            // .catch((error) => {
-            //     console.error(error);
-            //     alert("Error, please try again");
-            // });
+        // .then(({data}) => {
+        //     console.log(data);
+        //     if (data.status === true) {
+        //         alert("Login Successfully");
+        //         this.$router.push({ name: 'Helloworld' });
+        //     } else {
+        //         alert("Login Failed");
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.error(error);
+        //     alert("Error, please try again");
+        // });
     },
 
 }

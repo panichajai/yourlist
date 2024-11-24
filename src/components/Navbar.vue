@@ -17,237 +17,12 @@
                 <i class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
               </div>
             </form>
-            <div class="mt-3 mb-2">
-              <div class="text-[13px] font-medium text-gray-400 ml-4 mb-2">Recently</div>
-              <ul class="max-h-64 overflow-y-auto">
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">Create
-                        landing page</div>
-                      <div class="text-[11px] text-gray-400">$345</div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </li>
-        <li class="dropdown">
           <button type="button"
             class="dropdown-toggle text-gray-400 w-8 h-8 rounded flex items-center justify-center hover:bg-gray-50 hover:text-gray-600">
             <i class="ri-notification-3-line"></i>
           </button>
-          <div
-            class="dropdown-menu shadow-md shadow-black/5 z-30 hidden max-w-xs w-full bg-white rounded-md border border-gray-100">
-            <div class="flex items-center px-4 pt-4 border-b border-b-gray-100 notification-tab">
-              <button type="button" data-tab="notification" data-tab-page="notifications"
-                class="text-gray-400 font-medium text-[13px] hover:text-gray-600 border-b-2 border-b-transparent mr-4 pb-1 active">Notifications</button>
-              <button type="button" data-tab="notification" data-tab-page="messages"
-                class="text-gray-400 font-medium text-[13px] hover:text-gray-600 border-b-2 border-b-transparent mr-4 pb-1">Messages</button>
-            </div>
-            <div class="my-2">
-              <ul class="max-h-64 overflow-y-auto" data-tab-for="notification" data-page="notifications">
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">New
-                        order
-                      </div>
-                      <div class="text-[11px] text-gray-400">from a user</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">New
-                        order
-                      </div>
-                      <div class="text-[11px] text-gray-400">from a user</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">New
-                        order
-                      </div>
-                      <div class="text-[11px] text-gray-400">from a user</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">New
-                        order
-                      </div>
-                      <div class="text-[11px] text-gray-400">from a user</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">New
-                        order
-                      </div>
-                      <div class="text-[11px] text-gray-400">from a user</div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-              <ul class="max-h-64 overflow-y-auto hidden" data-tab-for="notification" data-page="messages">
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">John Doe
-                      </div>
-                      <div class="text-[11px] text-gray-400">Hello there!</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">John Doe
-                      </div>
-                      <div class="text-[11px] text-gray-400">Hello there!</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">John Doe
-                      </div>
-                      <div class="text-[11px] text-gray-400">Hello there!</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">John Doe
-                      </div>
-                      <div class="text-[11px] text-gray-400">Hello there!</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="py-2 px-4 flex items-center hover:bg-gray-50 group">
-                    <img src="https://placehold.co/32x32" alt=""
-                      class="w-8 h-8 rounded block object-cover align-middle">
-                    <div class="ml-2">
-                      <div class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">John Doe
-                      </div>
-                      <div class="text-[11px] text-gray-400">Hello there!</div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
         <li class="dropdown ml-3 relative">
           <!-- ปุ่ม Toggle Dropdown -->
           <button type="button" @click="toggleDropdown('navbar')" class="dropdown-toggle flex items-center">
@@ -264,13 +39,7 @@
               </a>
             </li>
             <li>
-              <a href="#"
-                class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a href="#"
+              <a href="/"
                 class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">
                 Logout
               </a>
@@ -281,24 +50,25 @@
     </div>
 
     <div class="card flex justify-center">
+      <Toast />
       <Dialog v-model:visible="visible" modal header="Edit Profile" :style="{ width: '30rem' }">
         <div class="flex flex-col gap-4 mb-6">
           <div class="flex flex-col gap-1">
             <label for="username" class="font-semibold">Username</label>
             <div>
-              <InputText id="username" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="Jai" />
             </div>
           </div>
           <div class="flex flex-col gap-1">
             <label for="fname" class="font-semibold">First name</label>
             <div>
-              <InputText id="fname" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="Panicha" />
             </div>
           </div>
           <div class="flex flex-col gap-1">
             <label for="lname" class="font-semibold">Last Name</label>
             <div>
-              <InputText id="lname" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="Likitsupin" />
             </div>
           </div>
           <div>
@@ -314,24 +84,23 @@
           <div class="flex flex-col gap-1" v-if="visiblePassword">
             <label for="current_password" class="font-semibold">Current password</label>
             <div>
-              <InputText id="current_password" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="1234" />
             </div>
           </div>
           <div class="flex flex-col gap-1" v-if="visiblePassword">
             <label for="new_password" class="font-semibold">New password</label>
             <div>
-              <InputText id="new_password" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="admin1234" />
             </div>
           </div>
           <div class="flex flex-col gap-1" v-if="visiblePassword">
             <label for="confirm_new_password" class="font-semibold">Confirm new password</label>
             <div>
-              <InputText id="confirm_new_password" class="w-full" autocomplete="off" />
+              <InputText class="w-full" disabled placeholder="admin1234" />
             </div>
           </div>
         </div>
         <div class="flex justify-end gap-2">
-          <Toast />
           <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
           <Button type="button" label="Save" severity="info" @click="EditProfile"></Button>
         </div>
@@ -460,6 +229,7 @@ export default {
       this.visible = !this.visible;
     },
     EditProfile() {
+      this.visible = false;
       this.$toast.add({ severity: 'success', summary: 'Edit Profile Success', detail: ' ', life: 3000 });
     },
     goToProjectPage() {
