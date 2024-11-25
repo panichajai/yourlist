@@ -40,7 +40,7 @@
                         </div>
                         <div class="flex justify-end gap-2">
                             <Toast />
-                            <Button type="button" label="Cancel" severity="secondary" @click="visibleAssignee = false">
+                            <Button type="button" label="Cancel" severity="secondary" @click="visibleAssignee = false ;newAssigneeName={assigneeName:'',tasks:[]} ">
                             </Button>
                             <Button type="button" label="Save" severity="info" @click="AddAssignee">
                             </Button>
@@ -108,12 +108,12 @@
                             <ScrollPanel style="width: 100%; height: 440px">
                                 <div class="flex flex-col gap-2 pt-2">
                                     <!-- v-for tasks  -->
-                                    <div v-for="(task, index) in assignee.tasks" :key="index" class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
+                                    <div v-for="(task, indexTask) in assignee.tasks" :key="indexTask" class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
                                         
                                         <div class="flex items-center gap-4">
                                             <label class="text-sm pt-1 text-gray-800">{{ task.title }}</label>
-                                            <i class="pi pi-trash text-gray-600" style="font-size: 12px;"></i>
-                                            <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"></i>
+                                            <i class="pi pi-trash text-gray-600" style="font-size: 12px;" @click="onTask('delete',index , indexTask,task)"></i>
+                                            <i class="pi pi-pencil text-gray-600" style="font-size: 12px;" @click="onTask('edit',index , indexTask ,task)"></i>
                                         </div>
                                         <div class="flex items-center gap-4">
                                             <i class="pi pi-align-left text-gray-600" style="font-size: 12px;"></i>
@@ -169,14 +169,24 @@ const visible = ref(false)
 const toast = useToast()
 const visibleAssignee = ref(false)
 const newAssigneeName = ref({assigneeName:'',tasks:[]})
+const assigneeNameModel = ref({assigneeName:'',tasks:[]})
 const isEdit = ref(false)
-const indexAddTask = ref(null)
+const isEditTask = ref(false)
+
+const indexTask = ref(null)
+const indexAssignee = ref(null)
 const taskModel = ref({
         title: '',
         description: '',
         startDate: null,
         endDate: null
     })
+const isTaskModel = ref({
+    title: '',
+    description: '',
+    startDate: null,
+    endDate: null
+})
 const tasks = ref([
     {
         title: 'Dashboard',
@@ -199,7 +209,7 @@ const assignees = ref([
 ])
 
 const toggleVisibility = (action, index) => {
-    indexAddTask.value = index;
+    indexAssignee.value = index;
     visible.value = !visible.value;
 };
 
@@ -217,19 +227,24 @@ const onAssignee = (action, index, assignee) => {
         });
     } else if (action === 'edit') {
         isEdit.value = true;
+        indexAssignee.value = index
         newAssigneeName.value = { ...assignee };
+        assigneeNameModel.value = { ...assignee };
         visibleAssignee.value = true;
     }
 };
 const AddAssignee = () => {
+    console.log('newAssigneeName.value' , newAssigneeName.value)
     if (newAssigneeName.value.assigneeName.trim()) {
         if (isEdit.value) {
-            // กรณีแก้ไข
+            console.log('newAssigneeName Edit', newAssigneeName.value);
             const index = assignees.value.findIndex(
-                (assignee) => assignee === newAssigneeName.value
+                (assignee) => assignee.assigneeName === assigneeNameModel.value.assigneeName
             );
+            console.log('index', index);
             if (index !== -1) {
-                assignees.value[index] = { ...newAssigneeName.value }; // อัปเดตข้อมูล
+                // อัปเดตข้อมูล
+                assignees.value[index] = { ...newAssigneeName.value };
                 toast.add({
                     severity: 'success',
                     summary: 'Edit Assignee Success',
@@ -238,6 +253,7 @@ const AddAssignee = () => {
                 });
             }
         } else {
+            console.log('newAssigneeName Add' , newAssigneeName.value)
             assignees.value.push({ ...newAssigneeName.value });
             toast.add({
                 severity: 'success',
@@ -248,9 +264,13 @@ const AddAssignee = () => {
         }
         // รีเซ็ตค่าและปิด Dialog
         newAssigneeName.value = { assigneeName: '', tasks: [] };
+        assigneeNameModel.value = { assigneeName: '', tasks: [] };
         visibleAssignee.value = false;
+        indexAssignee.value = null
         isEdit.value = false;
     } else {
+        console.log('newAssigneeName Error' , newAssigneeName.value)
+
         toast.add({
             severity: 'warn',
             summary: 'Invalid Input',
@@ -259,32 +279,87 @@ const AddAssignee = () => {
         });
     }
 };
+
+const onTask = (action, indexOnAssignee, indexonTask, task) => {
+    console.log('onTask', action, indexOnAssignee, indexonTask);
+    if (action === 'delete') {
+        const assignee = assignees.value[indexOnAssignee];
+        const deletedTask = assignee.tasks.splice(indexonTask, 1); // ลบ Task
+        toast.add({
+            severity: 'success',
+            summary: 'Delete Task Success',
+            detail: `${deletedTask[0]?.title || 'Task'} deleted`,
+            life: 1000,
+        });
+    } else if (action === 'edit') {
+        isEditTask.value = true; // Set to edit mode
+        indexAssignee.value = indexOnAssignee; // Save assignee index
+        indexTask.value = indexonTask; // Save task index
+        taskModel.value = { ...task }; // Load task data to edit
+        // isTaskModel.value={...task}
+        visible.value = true; // Open dialog for editing
+    }else{
+        taskModel.value = { ...task }; // Load task data to edit
+        isTaskModel.value={...task}
+    }
+};
+
 const AddTask = () => {
+    console.log('AddTask')
     if (taskModel.value.title.trim()) {
-        const assigneeIndex = indexAddTask.value;
-        if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
-            assignees.value[assigneeIndex].tasks.push({ ...taskModel.value });
-            taskModel.value = {
-                title: '',
-                description: '',
-                startDate: null,
-                endDate: null,
-            };
-            toast.add({
-                severity: 'success',
-                summary: 'Add Task Success',
-                detail: 'Task added successfully',
-                life: 3000,
-            });
-            visible.value = false; // Close the dialog
+        const assigneeIndex = indexAssignee.value;
+        const taskIndex = indexTask.value;
+        console.log('assigneeIndex' ,assigneeIndex , 'taskIndex', taskIndex )
+        if (isEditTask.value) {
+            console.log('isEditTask' , isEditTask)
+            // แก้ไข task
+            if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
+                assignees.value[assigneeIndex].tasks[taskIndex] = { ...taskModel.value }; // Update task
+                toast.add({
+                    severity: 'success',
+                    summary: 'Edit Task Success',
+                    detail: 'Task updated successfully',
+                    life: 3000,
+                });
+            } else {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Invalid assignee or task index',
+                    life: 3000,
+                });
+            }
         } else {
-            toast.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Invalid assignee index',
-                life: 3000,
-            });
+            // เพิ่ม task
+            if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
+                assignees.value[assigneeIndex].tasks.push({ ...taskModel.value }); // Add new task
+                toast.add({
+                    severity: 'success',
+                    summary: 'Add Task Success',
+                    detail: 'Task added successfully',
+                    life: 3000,
+                });
+            } else {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Invalid assignee index',
+                    life: 3000,
+                });
+            }
         }
+
+        // Reset state and close dialog
+        taskModel.value = {
+            title: '',
+            description: '',
+            startDate: null,
+            endDate: null,
+        };
+        visible.value = false;
+        isEditTask.value = false;
+        indexTask.value = null;
+        indexAssignee.value = null;
     } else {
         toast.add({
             severity: 'warn',
@@ -294,4 +369,5 @@ const AddTask = () => {
         });
     }
 };
+
 </script>
