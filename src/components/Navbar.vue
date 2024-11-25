@@ -102,44 +102,21 @@
     </div>
 
     <div>
-      <!-- <Breadcrumb :home="home" :model="items">
-      <template #item="{ item, props }">
-        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-          <a :href="href" v-bind="props.action" @click="navigate">
-            <span :class="[item.icon, 'text-color']" />
-            <span class="text-primary font-semibold">{{ item.label }}</span>
-          </a>
-        </router-link>
-        <a v-else :href="item.url" :target="item.target" v-bind="props.action">
-          <span class="text-surface-700 dark:text-surface-0">{{ item.label }}</span>
-        </a>
-      </template>
-    </Breadcrumb> -->
-      <Breadcrumb :home="home" :model="items">
-        <template #item="{ item, props }">
-          <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-            <a :href="href" v-bind="props.action" @click="navigate">
-              <span :class="[item.icon, 'text-color']" />
-              <span class="text-primary font-semibold">{{ item.label }}</span>
-            </a>
-          </router-link>
-          <a v-else :href="item.url" :target="item.target" v-bind="props.action">
-            <span class="text-surface-700 dark:text-surface-0">{{ item.label }}</span>
-          </a>
-        </template>
-      </Breadcrumb>
+      <div class="flex items-center gap-4 bg-white w-full p-4" >
+        <i class="pi pi-home text-gray-700"></i><span class="text-gray-700">/</span>{{Pagename}}
+      </div>
 
 
       <div class="flex p-4 bg-white">
         <div class="flex-1">
-          <label class="text-4xl w-full block">{{ title }}</label>
+          <label class="text-4xl w-full block">{{Pagename}}</label>
         </div>
-        <button type="button" @click="visible = true" class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md">
+        <button type="button" @click="newProject = true" class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md">
           <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-          <label class="text-lg text-white text-left sm:text-xl">New Project</label>
+          <label class="text-lg text-white text-left sm:text-xl">{{Buttonname}}</label>
         </button>
 
-        <div class="card flex justify-center">
+        <div class="card flex justify-center" v-if="newProject"  @click="newProject = false">
           <Dialog v-model:visible="visible" modal header="New Project" :style="{ width: '30rem' }">
             <div class="flex flex-col gap-4 mb-6">
               <div class="flex flex-col gap-1">
@@ -167,7 +144,7 @@
 <script>
 
 
-import Breadcrumb from 'primevue/breadcrumb';
+// import Breadcrumb from 'primevue/breadcrumb';
 import InputText from "primevue/inputtext";
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
@@ -179,39 +156,18 @@ export default {
     Dialog,
     Button,
     Toast,
-    Breadcrumb
+    // Breadcrumb
   },
   name: "NavbarPage",
+  props: {
+    Pagename: String,
+    Buttonname: String
+      },
   data() {
     return {
-      props: {
-    home: {
-      type: Object,
-      default: () => ({
-        icon: 'pi pi-home',
-        route: '/dashboard',
-      }),
-    },
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    title: {
-      type: String,
-      default: "",
-    },
-  },
-      // home: {
-      //   icon: 'pi pi-home',
-      //   route: '/introduction'
-      // },
-      // items: [
-      //   { label: '' },
-      //   { label: 'Form' },
-      //   { label: 'InputText', route: '/inputtext' }
-      // ],
       visible: false,
       visiblePassword: false,
+      newProject: false,
       states: {
         sidebar: window.innerWidth >= 768,
         dropdowns: {},

@@ -7,7 +7,7 @@
 
       <div class="flex flex-col flex-grow">
         <div class="bg-green-500 flex items-center justify-center">
-          <Navbar />
+          <Navbar Pagename="Dashboard" class="text-gray-700" Buttonname="New Project"/>
         </div>
         <div>
           <!-- <Breadcrumb :home="home" :model="items">
@@ -123,13 +123,13 @@ export default {
   name: "DashboardPage",
   data() {
     return {
-      home: {
-        icon: 'pi pi-home',
-        route: '/dashboard'
-      },
-      items: [
-        { label: 'Dashboard' },
-      ],
+      // home: {
+      //   icon: 'pi pi-home',
+      //   route: '/dashboard'
+      // },
+      // items: [
+      //   { label: 'Dashboard' },
+      // ],
       chartData: null,
       chartOptions: {
         cutout: '60%'
