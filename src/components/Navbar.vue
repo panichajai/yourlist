@@ -19,10 +19,10 @@
             </form>
           </div>
         </li>
-          <button type="button"
-            class="dropdown-toggle text-gray-400 w-8 h-8 rounded flex items-center justify-center hover:bg-gray-50 hover:text-gray-600">
-            <i class="ri-notification-3-line"></i>
-          </button>
+        <button type="button"
+          class="dropdown-toggle text-gray-400 w-8 h-8 rounded flex items-center justify-center hover:bg-gray-50 hover:text-gray-600">
+          <i class="ri-notification-3-line"></i>
+        </button>
         <li class="dropdown ml-3 relative">
           <!-- ปุ่ม Toggle Dropdown -->
           <button type="button" @click="toggleDropdown('navbar')" class="dropdown-toggle flex items-center">
@@ -53,12 +53,6 @@
       <Toast />
       <Dialog v-model:visible="visible" modal header="Edit Profile" :style="{ width: '30rem' }">
         <div class="flex flex-col gap-4 mb-6">
-          <div class="flex flex-col gap-1">
-            <label for="username" class="font-semibold">Username</label>
-            <div>
-              <InputText class="w-full" disabled placeholder="Jai" />
-            </div>
-          </div>
           <div class="flex flex-col gap-1">
             <label for="fname" class="font-semibold">First name</label>
             <div>
@@ -109,6 +103,19 @@
 
     <div>
       <!-- <Breadcrumb :home="home" :model="items">
+      <template #item="{ item, props }">
+        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+          <a :href="href" v-bind="props.action" @click="navigate">
+            <span :class="[item.icon, 'text-color']" />
+            <span class="text-primary font-semibold">{{ item.label }}</span>
+          </a>
+        </router-link>
+        <a v-else :href="item.url" :target="item.target" v-bind="props.action">
+          <span class="text-surface-700 dark:text-surface-0">{{ item.label }}</span>
+        </a>
+      </template>
+    </Breadcrumb> -->
+      <Breadcrumb :home="home" :model="items">
         <template #item="{ item, props }">
           <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
             <a :href="href" v-bind="props.action" @click="navigate">
@@ -120,10 +127,12 @@
             <span class="text-surface-700 dark:text-surface-0">{{ item.label }}</span>
           </a>
         </template>
-      </Breadcrumb> -->
-      <!-- <div class="flex p-4 bg-white">
+      </Breadcrumb>
+
+
+      <div class="flex p-4 bg-white">
         <div class="flex-1">
-          <label class="text-4xl w-full block">Dashbord</label>
+          <label class="text-4xl w-full block">{{ title }}</label>
         </div>
         <button type="button" @click="visible = true" class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md">
           <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
@@ -134,34 +143,12 @@
           <Dialog v-model:visible="visible" modal header="New Project" :style="{ width: '30rem' }">
             <div class="flex flex-col gap-4 mb-6">
               <div class="flex flex-col gap-1">
-                <label for=" projectmame" class="font-semibold">Project Name</label>
-                <div>
-                  <InputText id="projectmame" class="w-full" autocomplete="off" />
-                </div>
+                <label for=" projectname" class="font-semibold">YourList</label>
+                <InputText class="w-full" disabled placeholder="Panicha" />
               </div>
               <div class="flex flex-col gap-1">
                 <label for=" projectdetails" class="font-semibold">Project Details</label>
-                <div>
-                  <InputText id="projectdetails" class="w-full" autocomplete="off" />
-                </div>
-              </div>
-              <div class="flex flex-col gap-1" v-if="visiblePassword">
-                <label for="current_password" class="font-semibold">Current password</label>
-                <div>
-                  <InputText id="current_password" class="w-full" autocomplete="off" />
-                </div>
-              </div>
-              <div class="flex flex-col gap-1" v-if="visiblePassword">
-                <label for="new_password" class="font-semibold">New password</label>
-                <div>
-                  <InputText id="new_password" class="w-full" autocomplete="off" />
-                </div>
-              </div>
-              <div class="flex flex-col gap-1" v-if="visiblePassword">
-                <label for="confirm_new_password" class="font-semibold">Confirm new password</label>
-                <div>
-                  <InputText id="confirm_new_password" class="w-full" autocomplete="off" />
-                </div>
+                <InputText class="w-full" disabled placeholder="-" />
               </div>
             </div>
             <div class="flex justify-end gap-2">
@@ -171,7 +158,7 @@
             </div>
           </Dialog>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 
@@ -180,7 +167,7 @@
 <script>
 
 
-// import Breadcrumb from 'primevue/breadcrumb';
+import Breadcrumb from 'primevue/breadcrumb';
 import InputText from "primevue/inputtext";
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
@@ -192,19 +179,37 @@ export default {
     Dialog,
     Button,
     Toast,
-    // Breadcrumb
+    Breadcrumb
   },
-  name: "HomePage",
+  name: "NavbarPage",
   data() {
     return {
-      home: {
+      props: {
+    home: {
+      type: Object,
+      default: () => ({
         icon: 'pi pi-home',
-        route: '/introduction'
-      },
-      items: [
-        { label: 'Dashbord' },
-      ],
-
+        route: '/dashboard',
+      }),
+    },
+    items: {
+      type: Array,
+      default: () => [],
+    },
+    title: {
+      type: String,
+      default: "",
+    },
+  },
+      // home: {
+      //   icon: 'pi pi-home',
+      //   route: '/introduction'
+      // },
+      // items: [
+      //   { label: '' },
+      //   { label: 'Form' },
+      //   { label: 'InputText', route: '/inputtext' }
+      // ],
       visible: false,
       visiblePassword: false,
       states: {
@@ -240,6 +245,10 @@ export default {
     if (window.innerWidth < 768) {
       this.states.sidebar = false;
     }
+
+    console.log("Home prop:", this.home);
+    console.log("Items prop:", this.items);
+    console.log("Title prop:", this.title);
   },
 
   confirm1() {
