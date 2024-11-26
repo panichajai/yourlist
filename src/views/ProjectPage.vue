@@ -5,19 +5,6 @@
         </div>
 
         <div class="flex flex-col flex-grow">
-            <Breadcrumb :home="home" :model="items">
-                <template #item="{ item, props }">
-                    <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                        <a :href="href" v-bind="props.action" @click="navigate">
-                            <span :class="[item.icon, 'text-color']" />
-                            <span class="text-primary font-semibold">{{ item.label }}</span>
-                        </a>
-                    </router-link>
-                    <a v-else :href="item.url" :target="item.target" v-bind="props.action">
-                        <span class="text-surface-700 dark:text-surface-0">{{ item.label }}</span>
-                    </a>
-                </template>
-            </Breadcrumb>
             <div class="flex p-4 bg-white">
                 <div class="flex-1">
                     <label class="text-4xl w-full block">To Do List</label>
@@ -132,11 +119,8 @@
                             </ScrollPanel>
                         </div>
                     </div>
-
-                    <TestPage namepage="Panicha"/>
                 </div>
             </div>
-            
         </div>
     </div>
 </template>
@@ -144,7 +128,6 @@
 <script setup>
 import { ref } from 'vue'
 import Sidebar from '@/components/Sidebar.vue'
-import Breadcrumb from 'primevue/breadcrumb'
 import InputText from "primevue/inputtext"
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
@@ -152,19 +135,8 @@ import DatePicker from 'primevue/datepicker'
 import Editor from 'primevue/editor'
 import Toast from 'primevue/toast'
 import ScrollPanel from 'primevue/scrollpanel'
-import TestPage from './TestPage.vue'
 import { useToast } from 'primevue/usetoast'
 
-// Breadcrumb setup
-const home = {
-    icon: 'pi pi-home',
-    route: '/dashboard'
-}
-
-const items = [
-    { label: 'Project' },
-    { label: 'To Do List' }
-]
 const visible = ref(false)
 const toast = useToast()
 const visibleAssignee = ref(false)

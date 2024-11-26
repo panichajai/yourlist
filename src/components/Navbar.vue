@@ -101,42 +101,9 @@
       </Dialog>
     </div>
 
-    <div>
       <div class="flex items-center gap-4 bg-white w-full p-4" >
         <i class="pi pi-home text-gray-700"></i><span class="text-gray-700">/</span>{{Pagename}}
       </div>
-
-
-      <!-- <div class="flex p-4 bg-white">
-        <div class="flex-1">
-          <label class="text-4xl w-full block">{{Pagename}}</label>
-        </div>
-        <button type="button" @click="newProject = true" class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md">
-          <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-          <label class="text-lg text-white text-left sm:text-xl">{{Buttonname}}</label>
-        </button>
-
-        <div class="card flex justify-center" v-if="newProject"  @click="newProject = false">
-          <Dialog v-model:visible="visible" modal header="New Project" :style="{ width: '30rem' }">
-            <div class="flex flex-col gap-4 mb-6">
-              <div class="flex flex-col gap-1">
-                <label for=" projectname" class="font-semibold">YourList</label>
-                <InputText class="w-full" disabled placeholder="Panicha" />
-              </div>
-              <div class="flex flex-col gap-1">
-                <label for=" projectdetails" class="font-semibold">Project Details</label>
-                <InputText class="w-full" disabled placeholder="-" />
-              </div>
-            </div>
-            <div class="flex justify-end gap-2">
-              <Toast />
-              <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-              <Button type="button" label="Save" severity="info" @click="goToProjectPage"></Button>
-            </div>
-          </Dialog>
-        </div>
-      </div> -->
-    </div>
   </div>
 
 </template>
@@ -146,14 +113,14 @@
 
 // import Breadcrumb from 'primevue/breadcrumb';
 import InputText from "primevue/inputtext";
-// import Dialog from 'primevue/dialog';
+import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 
 export default {
   components: {
     InputText,
-    // Dialog,
+    Dialog,
     Button,
     Toast,
     // Breadcrumb
