@@ -5,6 +5,9 @@
         </div>
 
         <div class="flex flex-col flex-grow">
+            <div>
+                <Navbar Pagename="Project" class="text-gray-700"/>
+            </div>
             <div class="flex p-4 bg-white">
                 <div class="flex-1">
                     <label class="text-4xl w-full block">To Do List</label>
@@ -136,6 +139,7 @@ import Editor from 'primevue/editor'
 import Toast from 'primevue/toast'
 import ScrollPanel from 'primevue/scrollpanel'
 import { useToast } from 'primevue/usetoast'
+import Navbar from "@/components/Navbar.vue";
 
 const visible = ref(false)
 const toast = useToast()

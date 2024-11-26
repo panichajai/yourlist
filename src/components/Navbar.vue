@@ -111,7 +111,6 @@
 <script>
 
 
-// import Breadcrumb from 'primevue/breadcrumb';
 import InputText from "primevue/inputtext";
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
@@ -123,12 +122,10 @@ export default {
     Dialog,
     Button,
     Toast,
-    // Breadcrumb
   },
   name: "NavbarPage",
   props: {
     Pagename: String,
-    Buttonname: String
       },
   data() {
     return {

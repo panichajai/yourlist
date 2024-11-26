@@ -7,7 +7,7 @@
 
     <div class="flex flex-col flex-grow">
       <div>
-        <Navbar Pagename="Dashboard" class="text-gray-700" Buttonname="New Project" />
+        <Navbar Pagename="Dashboard" class="text-gray-700"/>
       </div>
       <div>
         <div class="flex p-4 bg-white">

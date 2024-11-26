@@ -49,12 +49,12 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Toast from 'primevue/toast';
-
+import config from '@/config';
 export default {
   name: 'LoginPage',
   components: {
@@ -63,6 +63,7 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const { apiBaseUrl } = config;
     const user = ref({
       email: '',
       password: '',
@@ -70,18 +71,36 @@ export default {
     const toast = ref(null);
 
     const LoginData = () => {
-      const email = "admin@gmail.com";
-      const password = "1234";
-
-      if (user.value.email === email && user.value.password === password) {
-        toast.value.add({
-          severity: "success",
-          summary: "Login Successful",
-          life: 3000,
-        });
-        setTimeout(() => {
-          router.push({ name: 'Dashboard' });
-        }, 3000);
+      // const email = "admin@gmail.com";
+      // const password = "1234";
+      console.log('apiBaseUrl',apiBaseUrl)
+      const urlAPi = apiBaseUrl + 'users/login'
+      if (user.value.email?.trim() && user.value.password?.trim()) {
+        const userLogin = {
+          user_email:user.value.email,
+          user_password:user.value.password
+        }
+        console.log('urlAPi', urlAPi , 'userLogin' , userLogin)
+        axios.post(urlAPi, userLogin)
+        .then(({data}) => {
+            console.log(data);
+            if (data.success === true) {
+              toast.value.add({
+              severity: "success",
+              summary: "Login Successful",
+              life: 1000,
+            });
+            setTimeout(() => {
+              router.push({ name: 'Dashboard' });
+            }, 1000);
+                } else {
+                    alert("Login Failed");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Error, please try again");
+            });
       } else {
         toast.value.add({
           severity: "error",
@@ -91,6 +110,7 @@ export default {
       }
     };
 
+
     const goToSignUpPage = () => {
       router.push({ name: 'SignUp' });
     };
@@ -98,6 +118,7 @@ export default {
     return {
       user,
       toast,
+      apiBaseUrl,
       LoginData,
       goToSignUpPage,
     };
