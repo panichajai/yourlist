@@ -1,68 +1,74 @@
 <template>
     <div class="flex flex-row bg-black h-screen">
         <div class="bg-blue-500 flex items-center justify-center w-64">
-            <Sidebar />
+            <SidebarComponent />
         </div>
 
         <div class="flex flex-col flex-grow">
             <div>
-                <Navbar Pagename="Project" class="text-gray-700"/>
+                <NavbarComponent Pagename="Project" class="text-gray-700" />
             </div>
             <div class="flex p-4 bg-white">
                 <div class="flex-1">
                     <label class="text-4xl w-full block">To Do List</label>
                 </div>
                 <button type="button" @click="toggleVisibilityAssignee"
-                    class="flex items-center gap-2 px-4 py-2 h-10 bg-blue-500 rounded-md">
+                    class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md h-11">
                     <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-                    <span class="text-lg text-white text-left">Add Assignee</span>
+                    <span class="text-lg text-white text-left sm:text-xl">Add Assignee</span>
                 </button>
 
                 <div class="card flex justify-center">
-                    <Dialog v-model:visible="visibleAssignee" modal :header="isEdit.value ? 'Edit Person' : 'Assignee Person'"  :style="{ width: '60rem' }">
+                    <Dialog v-model:visible="visibleAssignee" modal
+                        :header="isEdit.value ? 'Edit Person' : 'Assignee Person'" :style="{ width: '60rem' }">
                         <div class="flex flex-col gap-4 mb-6">
                             <div class="flex flex-col gap-1">
                                 <label for="personname" class="font-semibold">Person</label>
                                 <div>
-                                    <InputText id="personname" v-model="newAssigneeName.assigneeName" class="w-full" autocomplete="off" />
+                                    <InputText id="personname" v-model="newAssigneeName.assigneeName" class="w-full"
+                                        autocomplete="off" />
                                 </div>
                             </div>
                         </div>
                         <div class="flex justify-end gap-2">
                             <Toast />
-                            <Button type="button" label="Cancel" severity="secondary" @click="visibleAssignee = false ;newAssigneeName={assigneeName:'',tasks:[]} ">
+                            <Button type="button" label="Cancel" severity="secondary"
+                                @click="visibleAssignee = false; newAssigneeName = { assigneeName: '', tasks: [] }">
                             </Button>
                             <Button type="button" label="Save" severity="info" @click="AddAssignee">
                             </Button>
                         </div>
                     </Dialog>
-                    <Dialog v-model:visible="visible" modal header="Add Task" :style="{ width: '60rem' }">
+                    <Dialog v-model:visible="visible" modal header="Add Task" :style="{ width: '50rem' }">
                         <div class="flex flex-col gap-4 mb-6">
                             <div class="flex flex-col gap-1">
                                 <label for="taskname" class="font-semibold">Task name</label>
                                 <div>
-                                    <InputText id="taskname" v-model="taskModel.title" class="w-full" autocomplete="off" />
+                                    <InputText id="taskname" v-model="taskModel.title" class="w-full"
+                                        autocomplete="off" />
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <label for="add_description" class="font-semibold">Add description</label>
                                 <div class="card">
-                                    <Editor id="description" v-model="taskModel.description"  editorStyle="height: 320px" />
+                                    <Editor id="description" v-model="taskModel.description"
+                                        editorStyle="height: 320px" />
                                 </div>
                             </div>
                             <div class="flex-auto">
                                 <label for="startdate" class="font-semibold mb-2">Start Date</label>
-                                <DatePicker id="startDate" v-model="taskModel.startDate" showIcon fluid iconDisplay="input"
-                                    inputId="startdate" />
+                                <DatePicker id="startDate" v-model="taskModel.startDate" showIcon fluid
+                                    dateFormat="dd/mm/yy" iconDisplay="input" inputId="startdate" />
                             </div>
                             <div class="flex-auto">
                                 <label for="enddate" class="block font-semibold mb-2">End Date</label>
-                                <DatePicker id="endDate" v-model="taskModel.endDate" dateFormat="dd/mm/yy" inputId="enddate" class="w-full" />
+                                <DatePicker id="endDate" v-model="taskModel.endDate" showIcon fluid
+                                    dateFormat="dd/mm/yy" iconDisplay="input" inputId="enddate" />
                             </div>
                         </div>
                         <div class="flex justify-end gap-2">
                             <Toast />
-                            <Button type="button" label="Cancel" severity="secondary" @click="visible = false">
+                            <Button type="button" label="Cancel" severity="secondary" @click="handleCancel">
                             </Button>
                             <Button type="button" label="Save" severity="info" @click="AddTask">
                             </Button>
@@ -72,50 +78,67 @@
             </div>
 
             <div class="flex flex-col items-center justify-center flex-grow overflow-auto bg-gray-200 p-4">
-                <div class="flex flex-row gap-6 h-screen w-full bg-white p-6 rounded-md">
-                    <!-- v-for Assignee  -->
-                    <div v-for="(assignee, index) in assignees" :key="index" class="bg-gray-100 rounded-md shadow-md p-4 w-60">
+                <div class="flex flex-row gap-6 h-full w-full bg-white p-6 rounded-md">
+                    <div v-for="(assignee, index) in assignees" :key="index"
+                        class="bg-gray-100 rounded-md shadow-md p-4 w-60">
                         <div class="flex items-center justify-between pb-2 border-b-2 border-gray-300">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 flex-grow">
                                 <label class="text-lg">{{ assignee.assigneeName }}</label>
                             </div>
-                            <button type="button" @click="onAssignee('delete',index ,assignee)"
-                                class="flex items-center gap-2 px-2 py-1 bg-blue-400 rounded-md">
-                                <i class="pi pi-trash" style="color: white; font-size: 0.5rem;"></i>
-                            </button>
-                            <button type="button" @click="onAssignee('edit',index , assignee)"
-                                class="flex items-center gap-2 px-2 py-1 bg-blue-400 rounded-md">
-                                <i class="pi pi-pencil" style="color: white; font-size: 0.5rem;"></i>
-                            </button>
-                            <button type="button" @click="toggleVisibility('add',index)"
-                                class="flex items-center gap-2 px-2 py-1 bg-blue-400 rounded-md">
-                                <i class="pi pi-plus" style="color: white; font-size: 0.5rem;"></i>
-                                <span class="text-xs text-white text-left">Add Task</span>
-                            </button>
+                            <div class="flex items-center">
+                                <button type="button" @click="onAssignee('delete', index, assignee)"
+                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
+                                    <i class="pi pi-trash text-gray-600" style="font-size: 12px;"></i>
+                                </button>
+                                <button type="button" @click="onAssignee('edit', index, assignee)"
+                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
+                                    <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"></i>
+                                </button>
+                                <button type="button" @click="toggleVisibility('add', index)"
+                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
+                                    <i class="pi pi-plus text-gray-600" style="font-size: 12px;"></i>
+                                    <span class="text-xs text-gray-600 text-left">Add Task</span>
+                                </button>
+                            </div>
                         </div>
 
+
                         <div class="flex flex-col pt-2">
-                            <ScrollPanel style="width: 100%; height: 440px">
+                            <ScrollPanel style="width: 100%; height: 400px">
                                 <div class="flex flex-col gap-2 pt-2">
-                                    <!-- v-for tasks  -->
-                                    <div v-for="(task, indexTask) in assignee.tasks" :key="indexTask" class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
-                                        
+                                    <div v-for="(task, indexTask) in assignee.tasks" :key="indexTask"
+                                        class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
+
                                         <div class="flex items-center gap-4">
                                             <label class="text-sm pt-1 text-gray-800">{{ task.title }}</label>
-                                            <i class="pi pi-trash text-gray-600" style="font-size: 12px;" @click="onTask('delete',index , indexTask,task)"></i>
-                                            <i class="pi pi-pencil text-gray-600" style="font-size: 12px;" @click="onTask('edit',index , indexTask ,task)"></i>
+                                            <i class="pi pi-trash text-gray-600" style="font-size: 12px;"
+                                                @click="onTask('delete', index, indexTask, task)"></i>
+                                            <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"
+                                                @click="onTask('edit', index, indexTask, task)"></i>
                                         </div>
                                         <div class="flex items-center gap-4">
                                             <i class="pi pi-align-left text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">{{ task.description }}</label>
+                                            <label class="text-xs text-gray-600">
+                                                {{ task.description ? task.description.replace(/<\/?[^>]+(>|$)/g, "") : "" }}
+                                            </label>
                                         </div>
-                                        <div class="flex items-center gap-4">
-                                            <i class="pi pi-calendar text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">{{ task.startDate }}</label>
-                                        </div>
+
                                         <div class="flex items-center gap-4">
                                             <i class="pi pi-calendar-clock text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">{{ task.endDate }}</label>
+                                            <label class="text-xs text-gray-600">{{ new
+                                                Date(task.startDate).toLocaleDateString('en-GB', {
+                                                    day: '2-digit', month:
+                                                        '2-digit', year: 'numeric'
+                                                }) }}</label>
+                                        </div>
+
+                                        <div class="flex items-center gap-4">
+                                            <i class="pi pi-calendar-clock text-gray-600" style="font-size: 12px;"></i>
+                                            <label class="text-xs text-gray-600">{{ new
+                                                Date(task.endDate).toLocaleDateString('en-GB', {
+                                                    day: '2-digit', month:
+                                                        '2-digit', year: 'numeric'
+                                                }) }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -129,8 +152,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import Sidebar from '@/components/Sidebar.vue'
+import { ref } from "vue";
+import SidebarComponent from '@/components/SidebarComponent.vue'
 import InputText from "primevue/inputtext"
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
@@ -139,59 +162,84 @@ import Editor from 'primevue/editor'
 import Toast from 'primevue/toast'
 import ScrollPanel from 'primevue/scrollpanel'
 import { useToast } from 'primevue/usetoast'
-import Navbar from "@/components/Navbar.vue";
+import NavbarComponent from "@/components/NavbarComponent.vue";
+
+
+
 
 const visible = ref(false)
+const handleCancel = () => {
+    taskModel.value = {
+        title: '',
+        description: '',
+        startDate: null,
+        endDate: null
+    };
+
+    visible.value = false;
+};
 const toast = useToast()
 const visibleAssignee = ref(false)
-const newAssigneeName = ref({assigneeName:'',tasks:[]})
-const assigneeNameModel = ref({assigneeName:'',tasks:[]})
+const newAssigneeName = ref({ assigneeName: '', tasks: [] })
+const assigneeNameModel = ref({ assigneeName: '', tasks: [] })
 const isEdit = ref(false)
 const isEditTask = ref(false)
 
 const indexTask = ref(null)
 const indexAssignee = ref(null)
 const taskModel = ref({
-        title: '',
-        description: '',
-        startDate: null,
-        endDate: null
-    })
+    title: '',
+    description: '',
+    startDate: null,
+    endDate: null
+})
 const isTaskModel = ref({
     title: '',
     description: '',
     startDate: null,
     endDate: null
 })
+
+
+
 const tasks = ref([
     {
         title: 'Dashboard',
         description: 'Test the functionality of ..',
-        startDate: '13/11/2024',
-        endDate: '16/11/2024'
+        startDate: new Date('2024-11-26T00:00:00+07:00'),
+        endDate: new Date('2024-11-26T00:00:00+07:00')
     },
     {
         title: 'Dashboard',
         description: 'Test the functionality of ..',
-        startDate: '13/11/2024',
-        endDate: '16/11/2024'
-    }
+        startDate: new Date('2024-11-26T00:00:00+07:00'),
+        endDate: new Date('2024-11-26T00:00:00+07:00')
+    },
 ])
 const assignees = ref([
     {
         assigneeName: 'Jai',
-        tasks:tasks
+        tasks: tasks
     }
 ])
 
 const toggleVisibility = (action, index) => {
     indexAssignee.value = index;
+    taskModel.value = {
+        title: '',
+        description: '',
+        startDate: null,
+        endDate: null,
+    };
+
     visible.value = !visible.value;
 };
 
 const toggleVisibilityAssignee = () => {
     visibleAssignee.value = !visibleAssignee.value
+    newAssigneeName.value = { assigneeName: '', tasks: [] };
 }
+
 const onAssignee = (action, index, assignee) => {
     if (action === 'delete') {
         assignees.value.splice(index, 1);
@@ -210,7 +258,7 @@ const onAssignee = (action, index, assignee) => {
     }
 };
 const AddAssignee = () => {
-    console.log('newAssigneeName.value' , newAssigneeName.value)
+    console.log('newAssigneeName.value', newAssigneeName.value)
     if (newAssigneeName.value.assigneeName.trim()) {
         if (isEdit.value) {
             console.log('newAssigneeName Edit', newAssigneeName.value);
@@ -229,7 +277,7 @@ const AddAssignee = () => {
                 });
             }
         } else {
-            console.log('newAssigneeName Add' , newAssigneeName.value)
+            console.log('newAssigneeName Add', newAssigneeName.value)
             assignees.value.push({ ...newAssigneeName.value });
             toast.add({
                 severity: 'success',
@@ -245,7 +293,7 @@ const AddAssignee = () => {
         indexAssignee.value = null
         isEdit.value = false;
     } else {
-        console.log('newAssigneeName Error' , newAssigneeName.value)
+        console.log('newAssigneeName Error', newAssigneeName.value)
 
         toast.add({
             severity: 'warn',
@@ -268,15 +316,14 @@ const onTask = (action, indexOnAssignee, indexonTask, task) => {
             life: 1000,
         });
     } else if (action === 'edit') {
-        isEditTask.value = true; // Set to edit mode
+        isEditTask.value = true; // Set edit mode
         indexAssignee.value = indexOnAssignee; // Save assignee index
         indexTask.value = indexonTask; // Save task index
-        taskModel.value = { ...task }; // Load task data to edit
-        // isTaskModel.value={...task}
-        visible.value = true; // Open dialog for editing
-    }else{
-        taskModel.value = { ...task }; // Load task data to edit
-        isTaskModel.value={...task}
+        taskModel.value = { ...task }; // Load task data ตอน edit
+        visible.value = true; 
+    } else {
+        taskModel.value = { ...task }; // Load task data ตอน edit
+        isTaskModel.value = { ...task }
     }
 };
 
@@ -285,9 +332,9 @@ const AddTask = () => {
     if (taskModel.value.title.trim()) {
         const assigneeIndex = indexAssignee.value;
         const taskIndex = indexTask.value;
-        console.log('assigneeIndex' ,assigneeIndex , 'taskIndex', taskIndex )
+        console.log('assigneeIndex', assigneeIndex, 'taskIndex', taskIndex)
         if (isEditTask.value) {
-            console.log('isEditTask' , isEditTask)
+            console.log('isEditTask', isEditTask)
             // แก้ไข task
             if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
                 assignees.value[assigneeIndex].tasks[taskIndex] = { ...taskModel.value }; // Update task
@@ -297,7 +344,16 @@ const AddTask = () => {
                     detail: 'Task updated successfully',
                     life: 3000,
                 });
-            } else {
+
+                taskModel.value = {
+                    title: '',
+                    description: '',
+                    startDate: null,
+                    endDate: null
+                };
+            }
+
+            else {
                 toast.add({
                     severity: 'error',
                     summary: 'Error',
@@ -307,8 +363,19 @@ const AddTask = () => {
             }
         } else {
             // เพิ่ม task
+            if (!taskModel.value.title || !taskModel.value.startDate || !taskModel.value.endDate) {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Validation Error',
+                    detail: 'All fields are required.',
+                    life: 3000,
+                });
+                return;
+            }
             if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
+                console.log('taskModel', taskModel.value);
                 assignees.value[assigneeIndex].tasks.push({ ...taskModel.value }); // Add new task
+                console.log(' All Task: ', assignees.value[assigneeIndex].tasks)
                 toast.add({
                     severity: 'success',
                     summary: 'Add Task Success',
@@ -325,7 +392,7 @@ const AddTask = () => {
             }
         }
 
-        // Reset state and close dialog
+        // รีเซ็ต state and close dialog
         taskModel.value = {
             title: '',
             description: '',

@@ -13,7 +13,7 @@
 
 <script>
 // import Breadcrumb from 'primevue/breadcrumb';
-import Navbar from '@/components/Navbar.vue';
+import Navbar from '@/components/NavbarComponent.vue';
 import { String } from 'core-js';
 // import Sidebar from '@/components/Sidebar.vue';
 

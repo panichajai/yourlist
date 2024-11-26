@@ -24,12 +24,10 @@
           <i class="ri-notification-3-line"></i>
         </button>
         <li class="dropdown ml-3 relative">
-          <!-- ปุ่ม Toggle Dropdown -->
           <button type="button" @click="toggleDropdown('navbar')" class="dropdown-toggle flex items-center">
             <img :src="require('@/assets/profile.png')" alt="Profile Picture" class="w-8 h-8 rounded object-cover">
           </button>
 
-          <!-- Dropdown Menu -->
           <ul v-show="states.dropdowns['navbar']"
             class="dropdown-menu absolute top-full right-0 shadow-md shadow-black/5 z-30 py-1.5 rounded-md bg-white border border-gray-100">
             <li>
@@ -101,119 +99,43 @@
       </Dialog>
     </div>
 
-      <div class="flex items-center gap-4 bg-white w-full p-4" >
-        <i class="pi pi-home text-gray-700"></i><span class="text-gray-700">/</span>{{Pagename}}
-      </div>
+    <div class="flex items-center gap-4 bg-white w-full p-4" >
+      <i class="pi pi-home text-gray-700"></i><span class="text-gray-700">/</span>{{ Pagename }}
+    </div>
   </div>
-
 </template>
 
-<script>
-
-
-import InputText from "primevue/inputtext";
+<script setup>
+import { ref, defineProps } from 'vue';
+import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 
-export default {
-  components: {
-    InputText,
-    Dialog,
-    Button,
-    Toast,
-  },
-  name: "NavbarPage",
-  props: {
-    Pagename: String,
-      },
-  data() {
-    return {
-      visible: false,
-      visiblePassword: false,
-      newProject: false,
-      states: {
-        sidebar: window.innerWidth >= 768,
-        dropdowns: {},
-      },
-    };
-  },
-  methods: {
-    toggleDropdown(dropdownId) {
-      if (this.states.dropdowns[dropdownId] === undefined) {
-        this.states.dropdowns[dropdownId] = false;
-      }
-      this.states.dropdowns[dropdownId] = !this.states.dropdowns[dropdownId];
-    },
-    closeAllDropdowns() {
-      Object.keys(this.states.dropdowns).forEach((key) => {
-        this.states.dropdowns[key] = false;
-      });
-    },
-    toggleVisibility() {
-      this.visible = !this.visible;
-    },
-    EditProfile() {
-      this.visible = false;
-      this.$toast.add({ severity: 'success', summary: 'Edit Profile Success', detail: ' ', life: 3000 });
-    },
-    goToProjectPage() {
-      this.$router.push({ name: 'Project' });
-    }
-  },
-  mounted() {
-    if (window.innerWidth < 768) {
-      this.states.sidebar = false;
-    }
+// กำหนด props
+defineProps({
+  Pagename: String
+});
 
-    console.log("Home prop:", this.home);
-    console.log("Items prop:", this.items);
-    console.log("Title prop:", this.title);
-  },
+// กำหนด state สำหรับการใช้งาน
+const visible = ref(false);
+const visiblePassword = ref(false);
+const states = ref({
+  sidebar: window.innerWidth >= 768,
+  dropdowns: {},
+});
 
-  confirm1() {
-    this.$confirm.require({
-      message: 'Are you sure you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      rejectProps: {
-        label: 'Cancel',
-        severity: 'secondary',
-        outlined: true
-      },
-      acceptProps: {
-        label: 'Save'
-      },
-      accept: () => {
-        this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-      },
-      reject: () => {
-        this.$toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-      }
-    });
-  },
-  confirm2() {
-    this.$confirm.require({
-      message: 'Do you want to delete this record?',
-      header: 'Danger Zone',
-      icon: 'pi pi-info-circle',
-      rejectProps: {
-        label: 'Cancel',
-        severity: 'secondary',
-        outlined: true
-      },
-      acceptProps: {
-        label: 'Delete',
-        severity: 'danger'
-      },
-      accept: () => {
-        this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
-      },
-      reject: () => {
-        this.$toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-      }
-    });
+// ฟังก์ชันสำหรับ toggle dropdown
+const toggleDropdown = (dropdownId) => {
+  if (states.value.dropdowns[dropdownId] === undefined) {
+    states.value.dropdowns[dropdownId] = false;
   }
+  states.value.dropdowns[dropdownId] = !states.value.dropdowns[dropdownId];
+};
+
+const EditProfile = () => {
+  visible.value = false;
+  Toast.add({ severity: 'success', summary: 'Edit Profile Success', detail: ' ', life: 3000 });  // ใช้ Toast ที่เป็น default
 };
 
 </script>
