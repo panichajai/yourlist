@@ -3,7 +3,7 @@
             <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
                 <h2 class="text-center text-2xl font-bold mb-6">Sign Up</h2>
                 <form @submit.prevent="saveData">
-                    <Toast />
+                    <Toast ref="toast" />
                     <div class="flex flex-col gap-4">
                         <div>
                             <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
@@ -28,7 +28,7 @@
                         <div>
                             <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm
                                 Password</label>
-                                <InputText class="w-full" disabled placeholder="1234" />
+                            <InputText class="w-full" disabled placeholder="1234" />
                         </div>
 
                         <button type="submit"
@@ -42,7 +42,6 @@
                                 Log In
                             </button>
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -52,66 +51,59 @@
 
 <script>
 // import axios from 'axios';
-import InputText from "primevue/inputtext";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import InputText from 'primevue/inputtext';
 import Toast from 'primevue/toast';
 
 export default {
+    name: 'SignUpPage',
     components: {
         InputText,
         Toast,
     },
-    name: 'SignUpPage',
-    data() {
-        return {
-            result: {},
-            user: {
-                fname: '',
-                lname: '',
-                email: '',
-                password: '',
-                confirm_password: '',
-            }
-        }
-    },
-    created() {
-    },
-    mounted() {
-        console.log("mounted() called.....");
-    },
-    methods: {
-        saveData() {
-            this.$toast.add({ severity: "success", summary: "Sign Up Successful", life: 3000 });
+    setup() {
+        const router = useRouter();
+        const toast = ref(null);
+        const user = ref({
+            fname: '',
+            lname: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+        });
+
+        const saveData = () => {
+            toast.value.add({
+                severity: 'success',
+                summary: 'Sign Up Successful',
+                life: 3000,
+            });
             setTimeout(() => {
-                this.$router.push({ name: 'LogIn' });
+                router.push({ name: 'LogIn' });
             }, 3000);
-            // axios.post("ใส่ลิงก์ URL", this.user)
-            //     .then(
-            //         ({ data }) => {
-            //             console.log(data);
-            //             try {
-            //                 alert("Sign Up Successfully");
-            //             }
-            //             catch (err) {
-            //                 alert("Sign Up Failed")
-            //             }
-            //         }
-            //     )
-        },
-        goToLoginPage() {
-            this.$router.push({ name: 'LogIn' });
-        }
-        // อันนี้แชทเจน เผื่อต้องแก้
-        // saveData() {
-        //     axios.post("URLของAPI", this.user)
-        //     .then(({data}) => {
-        //         console.log(data);
-        //         alert("Successfully Sign Up");
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         alert("Failed to Sign Up");
-        //     });
-        // }
+        };
+
+        const goToLoginPage = () => {
+            router.push({ name: 'LogIn' });
+        };
+
+        return {
+            user,
+            toast,
+            saveData,
+            goToLoginPage,
+        };
     },
+
+    // axios.post("ใส่ลิงก์ URL", user.value)
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //     alert("Sign Up Successfully");
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //     alert("Sign Up Failed");
+    //   });
 }
 </script>

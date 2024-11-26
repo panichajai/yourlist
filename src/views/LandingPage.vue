@@ -74,27 +74,26 @@
 </template>
 
 <script>
-export default {
-    components: {
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
-    },
-    name: "LandingPage",
-    data() {
-        return {
+export default defineComponent({
+  name: 'LandingPage',
+  setup() {
+    const router = useRouter();
 
-        };
-    },
-    methods: {
-        goToSignUpPage() {
-            this.$router.push({ name: 'SignUp' });
-        },
-        goToLogInPage() {
-            this.$router.push({ name: 'LogIn' });
-        },
-    },
-    mounted() {
+    const goToSignUpPage = () => {
+      router.push({ name: 'SignUp' });
+    };
 
-    },
+    const goToLogInPage = () => {
+      router.push({ name: 'LogIn' });
+    };
 
-};
+    return {
+      goToSignUpPage,
+      goToLogInPage,
+    };
+  },
+});
 </script>

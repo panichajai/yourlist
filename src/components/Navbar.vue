@@ -107,7 +107,7 @@
       </div>
 
 
-      <div class="flex p-4 bg-white">
+      <!-- <div class="flex p-4 bg-white">
         <div class="flex-1">
           <label class="text-4xl w-full block">{{Pagename}}</label>
         </div>
@@ -135,7 +135,7 @@
             </div>
           </Dialog>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -146,14 +146,14 @@
 
 // import Breadcrumb from 'primevue/breadcrumb';
 import InputText from "primevue/inputtext";
-import Dialog from 'primevue/dialog';
+// import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 
 export default {
   components: {
     InputText,
-    Dialog,
+    // Dialog,
     Button,
     Toast,
     // Breadcrumb
