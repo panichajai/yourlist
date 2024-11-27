@@ -1,13 +1,16 @@
 <template>
     <div class="flex flex-row bg-black h-screen">
-        <div class="bg-blue-500 flex items-center justify-center w-64">
-            <SidebarComponent />
-        </div>
+    <div 
+      class="bg-blue-500 flex items-center justify-center w-64 sidebar-menu 
+             fixed md:relative top-0 left-0 h-full z-50 md:z-0"
+    >
+      <SidebarComponent />
+    </div>
 
-        <div class="flex flex-col flex-grow">
-            <div>
-                <NavbarComponent Pagename="Project" class="text-gray-700" />
-            </div>
+    <div class="flex flex-col flex-grow ml-64 md:ml-0">
+      <div>
+        <NavbarComponent Pagename="Project" class="text-gray-700"/>
+      </div>
             <div class="flex p-4 bg-white">
                 <div class="flex-1">
                     <label class="text-4xl w-full block">To Do List</label>
@@ -80,10 +83,12 @@
             <div class="flex flex-col items-center justify-center flex-grow overflow-auto bg-gray-200 p-4">
                 <div class="flex flex-row gap-6 h-full w-full bg-white p-6 rounded-md">
                     <div v-for="(assignee, index) in assignees" :key="index"
-                        class="bg-gray-100 rounded-md shadow-md p-4 w-60">
+                        class="bg-gray-100 rounded-md shadow-md p-4 w-64">
                         <div class="flex items-center justify-between pb-2 border-b-2 border-gray-300">
                             <div class="flex items-center gap-2 flex-grow">
-                                <label class="text-lg">{{ assignee.assigneeName }}</label>
+                                <label class="text-lg w-14 truncate">
+                                    {{ assignee.assigneeName }}
+                                </label>
                             </div>
                             <div class="flex items-center">
                                 <button type="button" @click="onAssignee('delete', index, assignee)"
@@ -109,19 +114,26 @@
                                     <div v-for="(task, indexTask) in assignee.tasks" :key="indexTask"
                                         class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
 
-                                        <div class="flex items-center gap-4">
-                                            <label class="text-sm pt-1 text-gray-800">{{ task.title }}</label>
-                                            <i class="pi pi-trash text-gray-600" style="font-size: 12px;"
-                                                @click="onTask('delete', index, indexTask, task)"></i>
-                                            <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"
-                                                @click="onTask('edit', index, indexTask, task)"></i>
+                                        <div class="flex items-center gap-4 justify-between">
+                                            <label class="text-sm pt-1 text-gray-800 w-48 truncate">
+                                                {{ task.title }}
+                                            </label>
+
+                                            <div class="flex items-center gap-3">
+                                                <i class="pi pi-trash text-gray-600" style="font-size: 12px;" 
+                                                    @click="onTask('delete', index, indexTask, task)"></i>
+                                                <i class="pi pi-pencil text-gray-600" style="font-size: 12px;" 
+                                                    @click="onTask('edit', index, indexTask, task)"></i>
+                                            </div>
                                         </div>
+
                                         <div class="flex items-center gap-4">
                                             <i class="pi pi-align-left text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">
+                                            <label class="text-xs text-gray-600 w-40 overflow-hidden truncate">
                                                 {{ task.description ? task.description.replace(/<\/?[^>]+(>|$)/g, "") : "" }}
                                             </label>
                                         </div>
+
 
                                         <div class="flex items-center gap-4">
                                             <i class="pi pi-calendar-clock text-gray-600" style="font-size: 12px;"></i>
@@ -316,13 +328,13 @@ const onTask = (action, indexOnAssignee, indexonTask, task) => {
             life: 1000,
         });
     } else if (action === 'edit') {
-        isEditTask.value = true; // Set edit mode
-        indexAssignee.value = indexOnAssignee; // Save assignee index
-        indexTask.value = indexonTask; // Save task index
-        taskModel.value = { ...task }; // Load task data ตอน edit
+        isEditTask.value = true; 
+        indexAssignee.value = indexOnAssignee; 
+        indexTask.value = indexonTask; 
+        taskModel.value = { ...task }; 
         visible.value = true; 
     } else {
-        taskModel.value = { ...task }; // Load task data ตอน edit
+        taskModel.value = { ...task }; 
         isTaskModel.value = { ...task }
     }
 };

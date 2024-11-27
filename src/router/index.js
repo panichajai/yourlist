@@ -4,7 +4,6 @@ import DashboardPage from '../views/DashboardPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
 import SignUpPage from '@/views/SignUpPage.vue'
 import ProjectPage from '@/views/ProjectPage.vue'
-import TestPage from '@/views/TestPage.vue'
 
 const routes = [
   {
@@ -31,11 +30,6 @@ const routes = [
     path: '/project',
     name: 'Project',
     component: ProjectPage
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: TestPage
   },
 ]
 

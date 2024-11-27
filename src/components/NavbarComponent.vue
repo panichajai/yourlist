@@ -100,7 +100,7 @@
     </div>
 
     <div class="flex items-center gap-4 bg-white w-full p-4" >
-      <i class="pi pi-home text-gray-700"></i><span class="text-gray-700">/</span>{{ Pagename }}
+      <a href="/dashboard" class="pi pi-home text-gray-700"></a><span class="text-gray-700">/</span>{{ Pagename }}
     </div>
   </div>
 </template>
@@ -111,13 +111,12 @@ import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast'
 
-// กำหนด props
 defineProps({
   Pagename: String
 });
-
-// กำหนด state สำหรับการใช้งาน
+const toast = useToast()
 const visible = ref(false);
 const visiblePassword = ref(false);
 const states = ref({
@@ -125,7 +124,6 @@ const states = ref({
   dropdowns: {},
 });
 
-// ฟังก์ชันสำหรับ toggle dropdown
 const toggleDropdown = (dropdownId) => {
   if (states.value.dropdowns[dropdownId] === undefined) {
     states.value.dropdowns[dropdownId] = false;
@@ -135,7 +133,7 @@ const toggleDropdown = (dropdownId) => {
 
 const EditProfile = () => {
   visible.value = false;
-  Toast.add({ severity: 'success', summary: 'Edit Profile Success', detail: ' ', life: 3000 });  // ใช้ Toast ที่เป็น default
+  toast.add({ severity: 'success', summary: 'Edit Profile Success', detail: ' ', life: 3000 });
 };
 
 </script>
