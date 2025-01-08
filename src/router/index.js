@@ -4,6 +4,7 @@ import DashboardPage from '../views/DashboardPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
 import SignUpPage from '@/views/SignUpPage.vue'
 import ProjectPage from '@/views/ProjectPage.vue'
+import ProjectIDPage from '@/views/ProjectIDPage.vue'
 
 const routes = [
   {
@@ -30,6 +31,12 @@ const routes = [
     path: '/project',
     name: 'Project',
     component: ProjectPage
+  },
+  {
+    path: '/project/:id',  // รับพารามิเตอร์ `id` จาก URL
+    name: 'ProjectID',
+    component: ProjectIDPage,
+    props: true,  // ส่ง `id` เป็น props ไปที่ component
   },
 ]
 

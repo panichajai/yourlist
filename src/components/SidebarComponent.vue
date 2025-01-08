@@ -21,15 +21,22 @@
       </li>
 
       <li class="mb-1 group bg-blue-500 hover:bg-blue-400 rounded-md">
-        <router-link to="/" class="flex items-center gap-4 py-2 px-4 text-gray-200 ">
+        <button @click="logout" class="w-full flex items-center gap-4 py-2 px-4 text-gray-200">
           <i class="pi pi-sign-out text-gray-200" style="font-size: 14px;"></i>
           <span class="text-sm">Logout</span>
-        </router-link>
+        </button>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+
+const logout = () => {
+  localStorage.removeItem('userEmail');
+  router.push({ name: 'LandingPage' });
+};
 </script>

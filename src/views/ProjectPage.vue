@@ -1,428 +1,214 @@
 <template>
     <div class="flex flex-row bg-black h-screen">
-    <div 
-      class="bg-blue-500 flex items-center justify-center w-64 sidebar-menu 
-             fixed md:relative top-0 left-0 h-full z-50 md:z-0"
-    >
-      <SidebarComponent />
-    </div>
+        <!-- Sidebar -->
+        <div class="bg-blue-500 flex items-center justify-center w-64 sidebar-menu fixed md:relative top-0 left-0 h-full z-50 md:z-0">
+            <SidebarComponent />
+        </div>
 
-    <div class="flex flex-col flex-grow ml-64 md:ml-0">
-      <div>
-        <NavbarComponent Pagename="Project" class="text-gray-700"/>
-      </div>
-            <div class="flex p-4 bg-white">
-                <div class="flex-1">
-                    <label class="text-4xl w-full block">To Do List</label>
-                </div>
-                <button type="button" @click="toggleVisibilityAssignee"
-                    class="flex items-center gap-2 px-4 py-2 bg-blue-500 rounded-md h-11">
-                    <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-                    <span class="text-lg text-white text-left sm:text-xl">Add Assignee</span>
-                </button>
-
-                <div class="card flex justify-center">
-                    <Dialog v-model:visible="visibleAssignee" modal
-                        :header="isEdit.value ? 'Edit Person' : 'Assignee Person'" :style="{ width: '60rem' }">
-                        <div class="flex flex-col gap-4 mb-6">
-                            <div class="flex flex-col gap-1">
-                                <label for="personname" class="font-semibold">Person</label>
-                                <div>
-                                    <InputText id="personname" v-model="newAssigneeName.assigneeName" class="w-full"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-end gap-2">
-                            <Toast />
-                            <Button type="button" label="Cancel" severity="secondary"
-                                @click="visibleAssignee = false; newAssigneeName = { assigneeName: '', tasks: [] }">
-                            </Button>
-                            <Button type="button" label="Save" severity="info" @click="AddAssignee">
-                            </Button>
-                        </div>
-                    </Dialog>
-                    <Dialog v-model:visible="visible" modal header="Add Task" :style="{ width: '50rem' }">
-                        <div class="flex flex-col gap-4 mb-6">
-                            <div class="flex flex-col gap-1">
-                                <label for="taskname" class="font-semibold">Task name</label>
-                                <div>
-                                    <InputText id="taskname" v-model="taskModel.title" class="w-full"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <label for="add_description" class="font-semibold">Add description</label>
-                                <div class="card">
-                                    <Editor id="description" v-model="taskModel.description"
-                                        editorStyle="height: 320px" />
-                                </div>
-                            </div>
-                            <div class="flex-auto">
-                                <label for="startdate" class="font-semibold mb-2">Start Date</label>
-                                <DatePicker id="startDate" v-model="taskModel.startDate" showIcon fluid
-                                    dateFormat="dd/mm/yy" iconDisplay="input" inputId="startdate" />
-                            </div>
-                            <div class="flex-auto">
-                                <label for="enddate" class="block font-semibold mb-2">End Date</label>
-                                <DatePicker id="endDate" v-model="taskModel.endDate" showIcon fluid
-                                    dateFormat="dd/mm/yy" iconDisplay="input" inputId="enddate" />
-                            </div>
-                        </div>
-                        <div class="flex justify-end gap-2">
-                            <Toast />
-                            <Button type="button" label="Cancel" severity="secondary" @click="handleCancel">
-                            </Button>
-                            <Button type="button" label="Save" severity="info" @click="AddTask">
-                            </Button>
-                        </div>
-                    </Dialog>
-                </div>
+        <!-- Main Content -->
+        <div class="flex flex-col flex-grow ml-64 md:ml-0">
+            <div>
+                <NavbarComponent Pagename="Dashboard" class="text-gray-700" />
             </div>
 
-            <div class="flex flex-col items-center justify-center flex-grow overflow-auto bg-gray-200 p-4">
-                <div class="flex flex-row gap-6 h-full w-full bg-white p-6 rounded-md">
-                    <div v-for="(assignee, index) in assignees" :key="index"
-                        class="bg-gray-100 rounded-md shadow-md p-4 w-64">
-                        <div class="flex items-center justify-between pb-2 border-b-2 border-gray-300">
-                            <div class="flex items-center gap-2 flex-grow">
-                                <label class="text-lg w-14 truncate">
-                                    {{ assignee.assigneeName }}
-                                </label>
-                            </div>
-                            <div class="flex items-center">
-                                <button type="button" @click="onAssignee('delete', index, assignee)"
-                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
-                                    <i class="pi pi-trash text-gray-600" style="font-size: 12px;"></i>
-                                </button>
-                                <button type="button" @click="onAssignee('edit', index, assignee)"
-                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
-                                    <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"></i>
-                                </button>
-                                <button type="button" @click="toggleVisibility('add', index)"
-                                    class="flex items-center gap-2 px-2 py-1 hover:bg-gray-300 rounded-md">
-                                    <i class="pi pi-plus text-gray-600" style="font-size: 12px;"></i>
-                                    <span class="text-xs text-gray-600 text-left">Add Task</span>
-                                </button>
-                            </div>
+            <!-- Header Section -->
+            <div class="flex p-4 bg-white">
+                <div class="flex-1">
+                    <label class="text-4xl block">Project</label>
+                </div>
+                <button type="button" @click="openDialog()" class="flex items-center gap-2 px-4 py-2 w-44 bg-blue-500 rounded-md">
+                    <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
+                    <span class="text-lg text-white text-left sm:text-xl">New Project</span>
+                </button>
+            </div>
+
+            <!-- Table Section -->
+            <div class="flex flex-col items-center justify-center flex-grow overflow-auto">
+                <div class="flex flex-col bg-gray-100 h-full w-full p-4">
+                    <div class="flex flex-col h-full w-full bg-white p-6 rounded-md">
+                        <div v-if="loading" class="flex items-center justify-center">
+                            <p>Loading...</p>
                         </div>
-
-
-                        <div class="flex flex-col pt-2">
-                            <ScrollPanel style="width: 100%; height: 400px">
-                                <div class="flex flex-col gap-2 pt-2">
-                                    <div v-for="(task, indexTask) in assignee.tasks" :key="indexTask"
-                                        class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
-
-                                        <div class="flex items-center gap-4 justify-between">
-                                            <label class="text-sm pt-1 text-gray-800 w-48 truncate">
-                                                {{ task.title }}
-                                            </label>
-
-                                            <div class="flex items-center gap-3">
-                                                <i class="pi pi-trash text-gray-600" style="font-size: 12px;" 
-                                                    @click="onTask('delete', index, indexTask, task)"></i>
-                                                <i class="pi pi-pencil text-gray-600" style="font-size: 12px;" 
-                                                    @click="onTask('edit', index, indexTask, task)"></i>
-                                            </div>
-                                        </div>
-
+                        <div class="card">
+                            <DataTable :value="projects" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem" emptyMessage="No projects found.">
+                                <Column field="name" header="Name" style="width: 25%"></Column>
+                                <Column field="details" header="Details" style="width: 50%"></Column>
+                                <Column field="id" header="ID" style="width: 25%"></Column>
+                                <Column header="Actions" style="width: 25%">
+                                    <template #body="slotProps">
                                         <div class="flex items-center gap-4">
-                                            <i class="pi pi-align-left text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600 w-40 overflow-hidden truncate">
-                                                {{ task.description ? task.description.replace(/<\/?[^>]+(>|$)/g, "") : "" }}
-                                            </label>
-                                        </div>
+                                            <button type="button" @click="onAction('view', slotProps.data.id)" class="flex items-center gap-2 hover:bg-gray-300 rounded-md">
+                                                <i class="pi pi-eye text-gray-600" style="font-size: 12px;"></i>
+                                            </button>
 
+                                            <button type="button" @click="openDialog(slotProps.data)" class="flex items-center gap-2 hover:bg-gray-300 rounded-md">
+                                                <i class="pi pi-pencil text-gray-600" style="font-size: 12px;"></i>
+                                            </button>
 
-                                        <div class="flex items-center gap-4">
-                                            <i class="pi pi-calendar-clock text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">{{ new
-                                                Date(task.startDate).toLocaleDateString('en-GB', {
-                                                    day: '2-digit', month:
-                                                        '2-digit', year: 'numeric'
-                                                }) }}</label>
+                                            <button type="button" @click="onAction('delete', slotProps.data.id)" class="flex items-center gap-2 hover:bg-gray-300 rounded-md">
+                                                <i class="pi pi-trash text-gray-600" style="font-size: 12px;"></i>
+                                            </button>
                                         </div>
-
-                                        <div class="flex items-center gap-4">
-                                            <i class="pi pi-calendar-clock text-gray-600" style="font-size: 12px;"></i>
-                                            <label class="text-xs text-gray-600">{{ new
-                                                Date(task.endDate).toLocaleDateString('en-GB', {
-                                                    day: '2-digit', month:
-                                                        '2-digit', year: 'numeric'
-                                                }) }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ScrollPanel>
+                                    </template>
+                                </Column>
+                            </DataTable>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Dialog สำหรับเพิ่มโปรเจกต์ -->
+        <div class="card flex justify-center">
+            <Dialog v-model:visible="visible" modal header="Add or Edit Project" :style="{ width: '30rem' }">
+                <div class="flex flex-col gap-4 mb-6">
+                    <!-- ฟิลด์สำหรับ Project Name -->
+                    <div class="flex flex-col gap-1">
+                        <label for="projectname" class="font-semibold">Project Name</label>
+                        <InputText v-model="selectedProject.name" class="w-full" placeholder="Enter project name" required />
+                    </div>
+
+                    <!-- ฟิลด์สำหรับ Project Details -->
+                    <div class="flex flex-col gap-1">
+                        <label for="projectdetails" class="font-semibold">Project Details</label>
+                        <InputText v-model="selectedProject.details" class="w-full" placeholder="Enter project details" required />
+                    </div>
+                </div>
+
+                <!-- ปุ่มใน Dialog -->
+                <div class="flex justify-end gap-2">
+                    <Button type="button" label="Cancel" severity="secondary" @click="closeDialog"></Button>
+                    <Button type="button" label="Save" severity="info" @click="addOrEditProject"></Button>
+                </div>
+            </Dialog>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import SidebarComponent from '@/components/SidebarComponent.vue'
-import InputText from "primevue/inputtext"
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import DatePicker from 'primevue/datepicker'
-import Editor from 'primevue/editor'
-import Toast from 'primevue/toast'
-import ScrollPanel from 'primevue/scrollpanel'
-import { useToast } from 'primevue/usetoast'
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import NavbarComponent from "@/components/NavbarComponent.vue";
+import SidebarComponent from "@/components/SidebarComponent.vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
+import config from "@/config";
+const router = useRouter();
+const { apiBaseAPIUrl } = config;
+const loading = ref(false);
 
+// State
+const projects = ref([]);
+const selectedProject = ref({ id: null, name: "", details: "" });
+const selectedProjectId = ref(null);
 
+const visible = ref(false);
 
+// Fetch projects on component mount
+onMounted(async () => {
+    await fetchProjects();
+});
 
-const visible = ref(false)
-const handleCancel = () => {
-    taskModel.value = {
-        title: '',
-        description: '',
-        startDate: null,
-        endDate: null
-    };
-
-    visible.value = false;
-};
-const toast = useToast()
-const visibleAssignee = ref(false)
-const newAssigneeName = ref({ assigneeName: '', tasks: [] })
-const assigneeNameModel = ref({ assigneeName: '', tasks: [] })
-const isEdit = ref(false)
-const isEditTask = ref(false)
-
-const indexTask = ref(null)
-const indexAssignee = ref(null)
-const taskModel = ref({
-    title: '',
-    description: '',
-    startDate: null,
-    endDate: null
-})
-const isTaskModel = ref({
-    title: '',
-    description: '',
-    startDate: null,
-    endDate: null
-})
-
-
-
-const tasks = ref([
-    {
-        title: 'Dashboard',
-        description: 'Test the functionality of ..',
-        startDate: new Date('2024-11-26T00:00:00+07:00'),
-        endDate: new Date('2024-11-26T00:00:00+07:00')
-    },
-    {
-        title: 'Dashboard',
-        description: 'Test the functionality of ..',
-        startDate: new Date('2024-11-26T00:00:00+07:00'),
-        endDate: new Date('2024-11-26T00:00:00+07:00')
-    },
-])
-const assignees = ref([
-    {
-        assigneeName: 'Jai',
-        tasks: tasks
-    }
-])
-
-const toggleVisibility = (action, index) => {
-    indexAssignee.value = index;
-    taskModel.value = {
-        title: '',
-        description: '',
-        startDate: null,
-        endDate: null,
-    };
-
-    visible.value = !visible.value;
-};
-
-const toggleVisibilityAssignee = () => {
-    visibleAssignee.value = !visibleAssignee.value
-    newAssigneeName.value = { assigneeName: '', tasks: [] };
-}
-
-const onAssignee = (action, index, assignee) => {
-    if (action === 'delete') {
-        assignees.value.splice(index, 1);
-        toast.add({
-            severity: 'success',
-            summary: 'Delete Assignee Success',
-            detail: `${assignee.assigneeName} deleted`,
-            life: 1000,
-        });
-    } else if (action === 'edit') {
-        isEdit.value = true;
-        indexAssignee.value = index
-        newAssigneeName.value = { ...assignee };
-        assigneeNameModel.value = { ...assignee };
-        visibleAssignee.value = true;
-    }
-};
-const AddAssignee = () => {
-    console.log('newAssigneeName.value', newAssigneeName.value)
-    if (newAssigneeName.value.assigneeName.trim()) {
-        if (isEdit.value) {
-            console.log('newAssigneeName Edit', newAssigneeName.value);
-            const index = assignees.value.findIndex(
-                (assignee) => assignee.assigneeName === assigneeNameModel.value.assigneeName
-            );
-            console.log('index', index);
-            if (index !== -1) {
-                // อัปเดตข้อมูล
-                assignees.value[index] = { ...newAssigneeName.value };
-                toast.add({
-                    severity: 'success',
-                    summary: 'Edit Assignee Success',
-                    detail: `${newAssigneeName.value.assigneeName} updated`,
-                    life: 1000,
-                });
-            }
+// Fetch all projects
+const fetchProjects = async () => {
+    loading.value = true;
+    try {
+        const response = await axios.get(`${apiBaseAPIUrl}Projects`);
+        if (response.data.success) {
+            projects.value = response.data.data;
         } else {
-            console.log('newAssigneeName Add', newAssigneeName.value)
-            assignees.value.push({ ...newAssigneeName.value });
-            toast.add({
-                severity: 'success',
-                summary: 'Add Assignee Success',
-                detail: `${newAssigneeName.value.assigneeName} added`,
-                life: 1000,
-            });
+            console.error(response.data.message || "Failed to fetch projects.");
         }
-        // รีเซ็ตค่าและปิด Dialog
-        newAssigneeName.value = { assigneeName: '', tasks: [] };
-        assigneeNameModel.value = { assigneeName: '', tasks: [] };
-        visibleAssignee.value = false;
-        indexAssignee.value = null
-        isEdit.value = false;
-    } else {
-        console.log('newAssigneeName Error', newAssigneeName.value)
-
-        toast.add({
-            severity: 'warn',
-            summary: 'Invalid Input',
-            detail: 'Assignee name cannot be empty',
-            life: 1000,
-        });
+    } catch (error) {
+        console.error("Error fetching projects:", error);
+    } finally {
+        loading.value = false;
     }
 };
 
-const onTask = (action, indexOnAssignee, indexonTask, task) => {
-    console.log('onTask', action, indexOnAssignee, indexonTask);
-    if (action === 'delete') {
-        const assignee = assignees.value[indexOnAssignee];
-        const deletedTask = assignee.tasks.splice(indexonTask, 1); // ลบ Task
-        toast.add({
-            severity: 'success',
-            summary: 'Delete Task Success',
-            detail: `${deletedTask[0]?.title || 'Task'} deleted`,
-            life: 1000,
-        });
-    } else if (action === 'edit') {
-        isEditTask.value = true; 
-        indexAssignee.value = indexOnAssignee; 
-        indexTask.value = indexonTask; 
-        taskModel.value = { ...task }; 
-        visible.value = true; 
-    } else {
-        taskModel.value = { ...task }; 
-        isTaskModel.value = { ...task }
-    }
-};
-
-const AddTask = () => {
-    console.log('AddTask')
-    if (taskModel.value.title.trim()) {
-        const assigneeIndex = indexAssignee.value;
-        const taskIndex = indexTask.value;
-        console.log('assigneeIndex', assigneeIndex, 'taskIndex', taskIndex)
-        if (isEditTask.value) {
-            console.log('isEditTask', isEditTask)
-            // แก้ไข task
-            if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
-                assignees.value[assigneeIndex].tasks[taskIndex] = { ...taskModel.value }; // Update task
-                toast.add({
-                    severity: 'success',
-                    summary: 'Edit Task Success',
-                    detail: 'Task updated successfully',
-                    life: 3000,
-                });
-
-                taskModel.value = {
-                    title: '',
-                    description: '',
-                    startDate: null,
-                    endDate: null
-                };
-            }
-
-            else {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Invalid assignee or task index',
-                    life: 3000,
-                });
-            }
-        } else {
-            // เพิ่ม task
-            if (!taskModel.value.title || !taskModel.value.startDate || !taskModel.value.endDate) {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Validation Error',
-                    detail: 'All fields are required.',
-                    life: 3000,
-                });
-                return;
-            }
-            if (assigneeIndex >= 0 && assignees.value[assigneeIndex]) {
-                console.log('taskModel', taskModel.value);
-                assignees.value[assigneeIndex].tasks.push({ ...taskModel.value }); // Add new task
-                console.log(' All Task: ', assignees.value[assigneeIndex].tasks)
-                toast.add({
-                    severity: 'success',
-                    summary: 'Add Task Success',
-                    detail: 'Task added successfully',
-                    life: 3000,
-                });
-            } else {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Invalid assignee index',
-                    life: 3000,
-                });
-            }
-        }
-
-        // รีเซ็ต state and close dialog
-        taskModel.value = {
-            title: '',
-            description: '',
-            startDate: null,
-            endDate: null,
+const addOrEditProject = async () => {
+    try {
+        // เพิ่มข้อมูล createBy และ updateBy ก่อน
+        const projectData = { 
+            ...selectedProject.value,
+            createBy: selectedProject.value.createBy || "admin",  // ถ้าไม่มี createBy ให้ใช้ค่า "admin"
+            updateBy: selectedProject.value.updateBy || "admin",   // ถ้าไม่มี updateBy ให้ใช้ค่า "admin"
         };
-        visible.value = false;
-        isEditTask.value = false;
-        indexTask.value = null;
-        indexAssignee.value = null;
-    } else {
-        toast.add({
-            severity: 'warn',
-            summary: 'Invalid Input',
-            detail: 'Task name cannot be empty',
-            life: 1000,
-        });
+
+        // ลบ id ออกเมื่อเป็นการเพิ่มโปรเจกต์ใหม่
+        if (!selectedProject.value.id) {
+            delete projectData.id;  // ลบ id หากเป็นการเพิ่มใหม่
+        }
+
+        let response;
+
+        if (selectedProject.value.id) {
+            // PUT: Update existing project
+            response = await axios.put(`${apiBaseAPIUrl}Projects/${selectedProject.value.id}`, projectData);
+            if (response.data.success) {
+                const index = projects.value.findIndex(project => project.id === selectedProject.value.id);
+                if (index !== -1) {
+                    projects.value[index] = { ...response.data.data };
+                }
+                alert("Project updated successfully");
+            }
+        } else {
+            // POST: Add new project
+            response = await axios.post(`${apiBaseAPIUrl}Projects`, projectData); // ส่ง projectData ที่ไม่มี id
+            if (response.data.success) {
+                projects.value.push(response.data.data);
+                alert("Project added successfully");
+            }
+        }
+
+        closeDialog();
+    } catch (error) {
+        console.error("Error adding or updating project:", error);
+        alert("An error occurred while adding or updating the project");
     }
 };
 
+
+
+// Open Dialog with project data (for Edit) or clear data (for New Project)
+const openDialog = (project = { id: null, name: "", details: "" }) => {
+    selectedProject.value = { ...project }; // รีเซตข้อมูลสำหรับ New Project หรือแก้ไข
+    selectedProjectId.value = project.id;
+    visible.value = true; // เปิด Dialog
+};
+
+// Close Dialog
+const closeDialog = () => {
+    selectedProject.value = { id: null, name: "", details: "" }; // รีเซตข้อมูล
+    visible.value = false; // ปิด Dialog
+};
+
+// Handle actions (view, edit, delete)
+const onAction = async (action, projectId) => {
+    if (action === "view") {
+        router.push({ name: 'ProjectID', params: { id: projectId } });
+    } else if (action === "edit") {
+        const project = projects.value.find(p => p.id === projectId);
+        openDialog(project);
+    } else if (action === "delete") {
+        if (confirm("Are you sure you want to delete this project?")) {
+            try {
+                await axios.delete(`${apiBaseAPIUrl}Projects/${projectId}`);
+                projects.value = projects.value.filter(p => p.id !== projectId);
+                alert("Project deleted successfully");
+            } catch (error) {
+                console.error("Error deleting project:", error);
+                alert("An error occurred while deleting the project");
+            }
+        }
+    }
+};
 </script>
+
+<style scoped>
+/* Add your styles here */
+</style>

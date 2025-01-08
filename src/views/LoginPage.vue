@@ -45,35 +45,87 @@ import Toast from 'primevue/toast';
 import ProgressSpinner from 'primevue/progressspinner';
 import config from '@/config';
 
-const { apiBaseUrl } = config;
+const { apiBaseAPIUrl } = config;
 const router = useRouter();
-
 const showSpinner = ref(false);
 const user = ref({
   email: '',
   password: '',
 });
+
 const toast = ref(null);
 
+// const LoginData = async () => {
+//   showSpinner.value = true;
+
+//   const urlAPi = `${apiBaseAPIUrl}Customers/login`;
+//   if (user.value.email?.trim() && user.value.password?.trim()) {
+//     const userLogin = {
+//       email: user.value.email,
+//       password: user.value.password,
+//     };
+
+//     try {
+//       const { data } = await axios.post(urlAPi, userLogin);
+
+//       if (data.success) {
+//         localStorage.setItem('userEmail', user.value.email);
+//         toast.value.add({
+//           severity: 'success',
+//           summary: 'Login Successful',
+//           detail: data.message || 'Welcome!',
+//           life: 2000,
+//         });
+//         setTimeout(() => {
+//           showSpinner.value = false;
+//           router.push({ name: 'Dashboard' });
+//         }, 1000);
+//       } else {
+//         toast.value.add({
+//           severity: 'error',
+//           summary: 'Login Failed',
+//           detail: data.message || 'Invalid email or password.',
+//         });
+//         showSpinner.value = false;
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       toast.value.add({
+//         severity: 'error',
+//         summary: 'Login Failed',
+//         detail: 'An error occurred while logging in.',
+//       });
+//       showSpinner.value = false;
+//     }
+//   } else {
+//     toast.value.add({
+//       severity: 'warn',
+//       summary: 'Input Required',
+//       detail: 'Email and password cannot be empty.',
+//     });
+//     showSpinner.value = false;
+//   }
+// };
 const LoginData = async () => {
   showSpinner.value = true;
 
-  const urlAPi = apiBaseUrl + 'users/login';
+  const urlAPi = `${apiBaseAPIUrl}Customers/login`;
   if (user.value.email?.trim() && user.value.password?.trim()) {
     const userLogin = {
-      user_email: user.value.email,
-      user_password: user.value.password,
+      email: user.value.email,
+      password: user.value.password,
     };
-    console.log('urlAPi', urlAPi, 'userLogin', userLogin);
 
     try {
       const { data } = await axios.post(urlAPi, userLogin);
 
-      if (data.success === true) {
+      if (data.success) {
+        localStorage.setItem('userEmail', user.value.email);
         toast.value.add({
           severity: 'success',
           summary: 'Login Successful',
-          life: 1000,
+          detail: data.message || 'Welcome!',
+          life: 2000,
         });
         setTimeout(() => {
           showSpinner.value = false;
@@ -83,17 +135,26 @@ const LoginData = async () => {
         toast.value.add({
           severity: 'error',
           summary: 'Login Failed',
-          detail: 'Invalid email or password.',
+          detail: data.message || 'Invalid email or password.',
         });
+        showSpinner.value = false;
       }
     } catch (error) {
       console.error(error);
       toast.value.add({
         severity: 'error',
         summary: 'Login Failed',
-        detail: 'Invalid email or password.',
+        detail: 'An error occurred while logging in.',
       });
+      showSpinner.value = false;
     }
+  } else {
+    toast.value.add({
+      severity: 'warn',
+      summary: 'Input Required',
+      detail: 'Email and password cannot be empty.',
+    });
+    showSpinner.value = false;
   }
 };
 

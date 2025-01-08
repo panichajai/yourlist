@@ -17,14 +17,6 @@
           <div class="flex-1">
             <label class="text-4xl block">Dashboard</label>
           </div>
-          <button
-            type="button"
-            @click="visible = true"
-            class="flex items-center gap-2 px-4 py-2 w-44 bg-blue-500 rounded-md"
-          >
-            <i class="pi pi-plus" style="color: white; font-size: 1rem;"></i>
-            <span class="text-lg text-white text-left sm:text-xl">New Project</span>
-          </button>
 
           <div class="card flex justify-center">
             <Dialog v-model:visible="visible" modal header="New Project" :style="{ width: '30rem' }">
