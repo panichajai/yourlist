@@ -116,7 +116,7 @@
 
 
                         <div class="flex flex-col pt-2">
-                            <ScrollPanel style="width: 100%; height: 400px">
+                            <ScrollPanel style="width: 100%; height: 600px">
                                 <div class="flex flex-col gap-2 pt-2">
                                     <div v-for="(task, index) in assignee.tasks" :key="index"
                                         class="flex flex-col p-2 gap-2 bg-white shadow-md rounded-md">
@@ -148,7 +148,14 @@
                                                 Date(task.startdate).toLocaleDateString('en-GB', {
                                                     day: '2-digit', month:
                                                         '2-digit', year: 'numeric'
-                                                }) }}</label>
+                                                }) }}
+                                                -
+                                                {{ new
+                                                Date(task.enddate).toLocaleDateString('en-GB', {
+                                                    day: '2-digit', month:
+                                                        '2-digit', year: 'numeric'
+                                                }) }}
+                                                </label>
                                         </div>
 
                                         <div class="flex items-center gap-4">
@@ -159,7 +166,15 @@
                                                         '2-digit', year: 'numeric'
                                                 }) }}</label>
                                         </div>
-
+                                        <div class="flex items-center gap-4">
+                                            <i class="pi pi-user text-gray-600" style="font-size: 12px;"></i>
+                                            
+                                            <label class="text-xs text-gray-600 w-40">Created By: {{ task.createBy }}</label>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                            <i class="pi pi-user-edit text-gray-600" style="font-size: 12px;"></i>
+                                            <label class="text-xs text-gray-600 w-40">Updated By: {{ task.updateBy }}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </ScrollPanel>
@@ -262,6 +277,10 @@ const fetchAssignees = async () => {
             tasks.value = assignees.value.flatMap((assignee) => assignee.taskModels);
             assignee.tasks = assignee.taskModels;
         });
+        console.log("tasks.value",tasks.value); // ตรวจสอบข้อมูล tasks
+        console.log('Task Models:', assignees.value.flatMap((assignee) => assignee.taskModels));
+
+
     } catch (error) {
         console.error(error);
     }
@@ -278,6 +297,24 @@ const fetchCustomers = async () => {
     }
 }
 
+const fetchUserFullName = async () => {
+    const email = localStorage.getItem('userEmail');
+    if (!email) {
+        alert('User email not found. Please log in again.');
+        route.push({ name: 'LogIn' });
+        return null;
+    }
+
+    try {
+        const response = await axios.get(`${apiBaseAPIUrl}Customers/GetByEmail?email=${encodeURIComponent(email)}`);
+        const { fullname } = response.data.data;
+        return fullname;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        alert('Failed to fetch user data.');
+        return null;
+    }
+};
 
 
 const AddTask = async () => { 
@@ -285,6 +322,7 @@ const AddTask = async () => {
     console.log('Start Date:', taskModel.startdate);
     console.log('End Date:', taskModel.enddate);
 
+    const fullname = await fetchUserFullName();
     const startdate = new Date(taskModel.startdate);
     const enddate = new Date(taskModel.enddate);
 
@@ -302,6 +340,8 @@ const AddTask = async () => {
         startdate: startDateISO,
         enddate: endDateISO,
         assigneeid: taskModel.assigneeid,
+        createBy: fullname,
+        updateBy: fullname,
     };
 
     try {

@@ -158,6 +158,7 @@ const LoginData = async () => {
   }
 };
 
+
 const goToSignUpPage = () => {
   router.push({ name: 'SignUp' });
 };

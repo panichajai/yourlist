@@ -1,17 +1,14 @@
 <template>
     <div class="flex flex-row bg-black h-screen">
-        <!-- Sidebar -->
         <div class="bg-blue-500 flex items-center justify-center w-64 sidebar-menu fixed md:relative top-0 left-0 h-full z-50 md:z-0">
             <SidebarComponent />
         </div>
 
-        <!-- Main Content -->
         <div class="flex flex-col flex-grow ml-64 md:ml-0">
             <div>
                 <NavbarComponent Pagename="Dashboard" class="text-gray-700" />
             </div>
 
-            <!-- Header Section -->
             <div class="flex p-4 bg-white">
                 <div class="flex-1">
                     <label class="text-4xl block">Project</label>
@@ -130,18 +127,66 @@ const fetchProjects = async () => {
     }
 };
 
+// const addOrEditProject = async () => {
+//     try {
+//         // เพิ่มข้อมูล createBy และ updateBy ก่อน
+//         const projectData = { 
+//             ...selectedProject.value,
+//             createBy: selectedProject.value.createBy || "admin",  // ถ้าไม่มี createBy ให้ใช้ค่า "admin"
+//             updateBy: selectedProject.value.updateBy || "admin",   // ถ้าไม่มี updateBy ให้ใช้ค่า "admin"
+//         };
+
+//         // ลบ id ออกเมื่อเป็นการเพิ่มโปรเจกต์ใหม่
+//         if (!selectedProject.value.id) {
+//             delete projectData.id;  // ลบ id หากเป็นการเพิ่มใหม่
+//         }
+
+//         let response;
+
+//         if (selectedProject.value.id) {
+//             // PUT: Update existing project
+//             response = await axios.put(`${apiBaseAPIUrl}Projects/${selectedProject.value.id}`, projectData);
+//             if (response.data.success) {
+//                 const index = projects.value.findIndex(project => project.id === selectedProject.value.id);
+//                 if (index !== -1) {
+//                     projects.value[index] = { ...response.data.data };
+//                 }
+//                 alert("Project updated successfully");
+//             }
+//         } else {
+//             // POST: Add new project
+//             response = await axios.post(`${apiBaseAPIUrl}Projects`, projectData); // ส่ง projectData ที่ไม่มี id
+//             if (response.data.success) {
+//                 projects.value.push(response.data.data);
+//                 alert("Project added successfully");
+//             }
+//         }
+
+//         closeDialog();
+//     } catch (error) {
+//         console.error("Error adding or updating project:", error);
+//         alert("An error occurred while adding or updating the project");
+//     }
+// };
 const addOrEditProject = async () => {
     try {
-        // เพิ่มข้อมูล createBy และ updateBy ก่อน
-        const projectData = { 
+        const email = localStorage.getItem('userEmail'); // ดึง Email จาก LocalStorage
+        if (!email) {
+            alert("No email found. Please log in again.");
+            router.push({ name: 'Login' });
+            return;
+        }
+
+        // สร้างข้อมูลโปรเจกต์พร้อม createBy และ updateBy
+        const projectData = {
             ...selectedProject.value,
-            createBy: selectedProject.value.createBy || "admin",  // ถ้าไม่มี createBy ให้ใช้ค่า "admin"
-            updateBy: selectedProject.value.updateBy || "admin",   // ถ้าไม่มี updateBy ให้ใช้ค่า "admin"
+            createBy: selectedProject.value.createBy || email, // ใช้ email แทน admin
+            updateBy: email, // ใช้ email แทน admin
         };
 
         // ลบ id ออกเมื่อเป็นการเพิ่มโปรเจกต์ใหม่
         if (!selectedProject.value.id) {
-            delete projectData.id;  // ลบ id หากเป็นการเพิ่มใหม่
+            delete projectData.id; // ลบ id หากเป็นการเพิ่มใหม่
         }
 
         let response;
@@ -158,7 +203,7 @@ const addOrEditProject = async () => {
             }
         } else {
             // POST: Add new project
-            response = await axios.post(`${apiBaseAPIUrl}Projects`, projectData); // ส่ง projectData ที่ไม่มี id
+            response = await axios.post(`${apiBaseAPIUrl}Projects`, projectData);
             if (response.data.success) {
                 projects.value.push(response.data.data);
                 alert("Project added successfully");
@@ -172,9 +217,6 @@ const addOrEditProject = async () => {
     }
 };
 
-
-
-// Open Dialog with project data (for Edit) or clear data (for New Project)
 const openDialog = (project = { id: null, name: "", details: "" }) => {
     selectedProject.value = { ...project }; // รีเซตข้อมูลสำหรับ New Project หรือแก้ไข
     selectedProjectId.value = project.id;
