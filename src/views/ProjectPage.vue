@@ -28,10 +28,11 @@
                         </div>
                         <div class="card">
                             <DataTable :value="projects" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem" emptyMessage="No projects found.">
-                                <Column field="name" header="Name" style="width: 25%"></Column>
-                                <Column field="details" header="Details" style="width: 50%"></Column>
-                                <Column field="id" header="ID" style="width: 25%"></Column>
-                                <Column header="Actions" style="width: 25%">
+                                <Column field="name" header="Name" style="width: 20%"></Column>
+                                <Column field="details" header="Details" style="width: 30%"></Column>
+                                <Column field="createBy" header="CreateBy" style="width: 20%"></Column>
+                                <Column field="updateBy" header="UpdateBy" style="width: 20%"></Column>
+                                <Column header="Actions" style="width: 10%">
                                     <template #body="slotProps">
                                         <div class="flex items-center gap-4">
                                             <button type="button" @click="onAction('view', slotProps.data.id)" class="flex items-center gap-2 hover:bg-gray-300 rounded-md">
@@ -127,73 +128,60 @@ const fetchProjects = async () => {
     }
 };
 
-// const addOrEditProject = async () => {
-//     try {
-//         // เพิ่มข้อมูล createBy และ updateBy ก่อน
-//         const projectData = { 
-//             ...selectedProject.value,
-//             createBy: selectedProject.value.createBy || "admin",  // ถ้าไม่มี createBy ให้ใช้ค่า "admin"
-//             updateBy: selectedProject.value.updateBy || "admin",   // ถ้าไม่มี updateBy ให้ใช้ค่า "admin"
-//         };
+const fetchUserFullName = async () => {
+    const email = localStorage.getItem('userEmail');
+    if (!email) {
+        alert('User email not found. Please log in again.');
+        router.push({ name: 'LogIn' });
+        return null;
+    }
 
-//         // ลบ id ออกเมื่อเป็นการเพิ่มโปรเจกต์ใหม่
-//         if (!selectedProject.value.id) {
-//             delete projectData.id;  // ลบ id หากเป็นการเพิ่มใหม่
-//         }
+    try {
+        const response = await axios.get(`${apiBaseAPIUrl}Customers/GetByEmail?email=${encodeURIComponent(email)}`);
+        const { fullname } = response.data.data;
+        return fullname;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        alert('Failed to fetch user data.');
+        return null;
+    }
+};
 
-//         let response;
-
-//         if (selectedProject.value.id) {
-//             // PUT: Update existing project
-//             response = await axios.put(`${apiBaseAPIUrl}Projects/${selectedProject.value.id}`, projectData);
-//             if (response.data.success) {
-//                 const index = projects.value.findIndex(project => project.id === selectedProject.value.id);
-//                 if (index !== -1) {
-//                     projects.value[index] = { ...response.data.data };
-//                 }
-//                 alert("Project updated successfully");
-//             }
-//         } else {
-//             // POST: Add new project
-//             response = await axios.post(`${apiBaseAPIUrl}Projects`, projectData); // ส่ง projectData ที่ไม่มี id
-//             if (response.data.success) {
-//                 projects.value.push(response.data.data);
-//                 alert("Project added successfully");
-//             }
-//         }
-
-//         closeDialog();
-//     } catch (error) {
-//         console.error("Error adding or updating project:", error);
-//         alert("An error occurred while adding or updating the project");
-//     }
-// };
 const addOrEditProject = async () => {
     try {
-        const email = localStorage.getItem('userEmail'); // ดึง Email จาก LocalStorage
+        const email = localStorage.getItem('userEmail'); 
         if (!email) {
             alert("No email found. Please log in again.");
             router.push({ name: 'Login' });
             return;
         }
 
-        // สร้างข้อมูลโปรเจกต์พร้อม createBy และ updateBy
+        const fullname = await fetchUserFullName();
+        if (!fullname) {
+            alert("Failed to fetch user data. Please log in again.");
+            return;
+        }
+        
         const projectData = {
             ...selectedProject.value,
-            createBy: selectedProject.value.createBy || email, // ใช้ email แทน admin
-            updateBy: email, // ใช้ email แทน admin
+            createBy: fullname, 
+            updateBy: fullname, 
         };
 
-        // ลบ id ออกเมื่อเป็นการเพิ่มโปรเจกต์ใหม่
+        const projectUpdateData = {
+            ...selectedProject.value,
+            updateBy: fullname, 
+        };
+
         if (!selectedProject.value.id) {
-            delete projectData.id; // ลบ id หากเป็นการเพิ่มใหม่
+            delete projectData.id; 
         }
 
         let response;
 
         if (selectedProject.value.id) {
             // PUT: Update existing project
-            response = await axios.put(`${apiBaseAPIUrl}Projects/${selectedProject.value.id}`, projectData);
+            response = await axios.put(`${apiBaseAPIUrl}Projects/${selectedProject.value.id}`, projectUpdateData);
             if (response.data.success) {
                 const index = projects.value.findIndex(project => project.id === selectedProject.value.id);
                 if (index !== -1) {
@@ -211,7 +199,11 @@ const addOrEditProject = async () => {
         }
 
         closeDialog();
-    } catch (error) {
+        setTimeout(() => {
+            fetchProjects();
+        },);
+    } 
+    catch (error) {
         console.error("Error adding or updating project:", error);
         alert("An error occurred while adding or updating the project");
     }
